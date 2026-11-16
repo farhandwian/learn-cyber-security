@@ -14,51 +14,49 @@ Each weekday session is about 1.5 hours, Saturday is a 3-hour lab block, Sunday 
 
 | Day | Time | Do | Output (proof you're done) |
 | --- | --- | --- | --- |
-| Mon | 1.5 h | Read [02-security-basics.md](02-security-basics.md) sections 1-4 (CIA, vocabulary, phases) | Draw the CIA triangle and the 5 phases from memory |
-| Tue | 1.5 h | Finish chapter 02 (who's who, assessment vs pentest). Take the quiz. | Quiz 5 of 6 or better |
-| Wed | 1.5 h | Read [03-cryptography.md](03-cryptography.md) sections 1-3 (hashing, password storage). Do **Lab 1** (code). | Explain "why not MD5 for passwords" in 30 seconds |
-| Thu | 1.5 h | Finish chapter 03 (sym/asym, certificates, TLS). Take the quiz. | Draw the TLS handshake on paper |
+| Mon | 1.5 h | Read [02-threat-landscape-2026.md](02-threat-landscape-2026.md) in full | Say the three "doors" breaches use today, with one number |
+| Tue | 1.5 h | Read [03-security-basics.md](03-security-basics.md); take the quiz | Draw the CIA triangle and the 5 phases from memory |
+| Wed | 1.5 h | Read [04-cryptography.md](04-cryptography.md) sections 1-4 (hashing, passwords, sym/asym). Do **Lab 1** (code). | Explain "why not MD5 for passwords" in 30 seconds |
+| Thu | 1.5 h | Finish chapter 4 (certificates, TLS, post-quantum). Take the quiz. | Draw the TLS handshake on paper |
 | Fri | rest | Nothing. Sleep is part of memory. | - |
-| Sat | 3 h | Read [04-networking-and-web.md](04-networking-and-web.md). Do **Lab 2** (Wireshark) and **Lab 3** (headers). | Screenshot of a TCP handshake you captured |
-| Sun | 1 h | Teach-back: narrate "what happens when you type https://bank.com" out loud, with one risk per step. Quiz chapter 04. | A 2-minute spoken answer, no notes |
+| Sat | 3 h | Read [05-networking-and-web.md](05-networking-and-web.md). Do **Lab 2** (Wireshark) and **Lab 3** (headers). | Screenshot of a TCP handshake you captured |
+| Sun | 1 h | Teach-back: narrate "what happens when you type https://bank.com" out loud, one risk per step. Quiz chapter 5. | A 2-minute spoken answer, no notes |
 
-## Week 2: Recon and scanning (≈10 h)
-
-Reading is lighter this week; the extra time goes into hands-on work and reviewing Week 1.
+## Week 2: Recon, vulnerabilities and web flaws (≈10 h)
 
 | Day | Time | Do | Output |
 | --- | --- | --- | --- |
-| Mon | 1.5 h | Read [05-recon-and-scanning.md](05-recon-and-scanning.md) sections 1-2 (legal, passive vs active, OSINT) | Name 5 passive sources and what each reveals |
-| Tue | 1.5 h | Sections 3-4 (nmap, port states, enumeration) | Explain open / closed / filtered with the handshake |
-| Wed | 1.5 h | **Lab 4**: nmap on scanme.nmap.org | Annotated output: what is exposed and why it matters |
-| Thu | 1.5 h | Sections 5-6 (CWE/CVE/CVSS, real cases). **Lab 5**: look up Log4Shell. Quiz. | Translate a CVSS vector into plain English |
+| Mon | 1.5 h | Read [06-recon-and-scanning.md](06-recon-and-scanning.md) sections 1-3 (legal, passive vs active, nmap) | Explain open / closed / filtered with the handshake |
+| Tue | 1.5 h | Finish chapter 6 (CVE/CVSS/KEV, patching). **Lab 4** (nmap on scanme) and **Lab 5** (read a CVE). | Translate a CVSS vector into plain English |
+| Wed | 1.5 h | Read [07-injection-and-xss.md](07-injection-and-xss.md) sections 1-3 (OWASP map, injection idea, SQLi) | Recite the OWASP Top 10 in 5 groups |
+| Thu | 1.5 h | Finish chapter 7 (XSS). Quiz. **Lab 7** and **Lab 8** (your own code: SQLi and XSS, then the fix). | Before/after code on screen |
 | Fri | rest | - | - |
-| Sat | 3 h | TryHackMe: complete a Nmap room and one network fundamentals room. Then redo the Week 1 quizzes. | Both quizzes at 80% or better |
-| Sun | 1 h | Teach-back: "Walk me through how an attacker would find a way into a company." Use the five phases. | A spoken answer with one example per phase |
+| Sat | 3 h | **Lab 9** part 1: PortSwigger Web Security Academy (SQL injection and XSS apprentice labs). Redo Week 1 quizzes. | 4+ labs solved; one 3-sentence summary each |
+| Sun | 1 h | Teach-back: "How would an attacker get into a company, and how would you stop them?" Use the five phases and the Verizon numbers. | A spoken answer with one example per phase |
 
-## Week 3: Web attacks, the most valuable week (≈10 h)
+## Week 3: Access, identity and phishing: the most valuable week (≈10 h)
 
 | Day | Time | Do | Output |
 | --- | --- | --- | --- |
-| Mon | 1.5 h | Read [06-injection-and-xss.md](06-injection-and-xss.md) sections 1-3 (OWASP map, injection idea, SQLi) | Recite the OWASP Top 10 in 5 groups |
-| Tue | 1.5 h | Sections 4-6 (other injections, XSS, interview). Quiz. | Explain SQLi and XSS and their fixes in 90 seconds each |
-| Wed | 1.5 h | **Lab 7** and **Lab 8** (your own code: SQL injection and XSS, then the fix) | Before/after code on screen |
-| Thu | 1.5 h | Read [07-access-auth-requests.md](07-access-auth-requests.md) sections 1-3 (IDOR, auth, sessions) | Explain 401 vs 403 and why IDOR is #1 |
+| Mon | 1.5 h | Read [08-access-control-and-apis.md](08-access-control-and-apis.md) sections 1-3 (AuthN vs AuthZ, BOLA/IDOR, API Top 10) | Explain 401 vs 403 and why BOLA is #1 for APIs |
+| Tue | 1.5 h | Finish chapter 8 (CSRF, SSRF, API checklist). Quiz. | Say what / how / fix for CSRF and SSRF |
+| Wed | 1.5 h | Read [09-identity-and-phishing.md](09-identity-and-phishing.md) sections 1-3 (stolen logins, infostealers, the MFA ladder) | Draw the MFA ladder and name what beats each rung |
+| Thu | 1.5 h | Finish chapter 9 (AiTM, passkeys, OAuth tokens, help-desk attacks). Quiz. **Lab 6** (check your own accounts, try a passkey). | Explain why a passkey stops an AiTM phish |
 | Fri | rest | - | - |
-| Sat | 3 h | **Lab 9**: PortSwigger Web Security Academy (SQL injection, XSS, access control, CSRF apprentice labs) | 6+ labs solved; one 3-sentence summary each |
-| Sun | 1 h | Read chapter 07 sections 4-6 (CSRF, SSRF, API checklist). Teach-back all six attacks. | Say what / how / fix for each of the six |
+| Sat | 3 h | **Lab 9** part 2: PortSwigger access-control and CSRF labs, then the Web LLM attacks intro | 6+ labs total solved; one 3-sentence summary each |
+| Sun | 1 h | Teach-back all of Weeks 2-3 attacks: what / how / fix / recent case. | Say all of them without notes |
 
-## Week 4: Systems, people, review (≈10 h)
+## Week 4: Defence, new risks, review (≈10 h)
 
 | Day | Time | Do | Output |
 | --- | --- | --- | --- |
-| Mon | 1.5 h | Read [08-network-attacks-defenses.md](08-network-attacks-defenses.md) | Place firewall, IDS, IPS, WAF on a network sketch |
-| Tue | 1.5 h | Read [09-people-malware-incident-response.md](09-people-malware-incident-response.md) | Name the 5 incident-response steps and 6 STRIDE letters |
-| Wed | 1.5 h | [10-qa-bank.md](10-qa-bank.md) round 1: read each question, answer **out loud**, then compare | Mark each question green / yellow / red |
-| Thu | 1.5 h | **Lab 11**: threat-model a feature you built (STRIDE). Review red and yellow questions. | One STRIDE table |
+| Mon | 1.5 h | Read [10-network-attacks-and-ddos.md](10-network-attacks-and-ddos.md) (1 h) and start [11-ransomware-and-incident-response.md](11-ransomware-and-incident-response.md) | Place firewall, IDS, IPS, WAF on a sketch |
+| Tue | 1.5 h | Finish chapter 11. Read [12-supply-chain-cloud-devsecops.md](12-supply-chain-cloud-devsecops.md). **Lab 10** (audit your own project's dependencies). | The 5 incident-response steps and the 6 STRIDE letters |
+| Wed | 1.5 h | Read [13-ai-and-llm-security.md](13-ai-and-llm-security.md). **Lab 11** (prompt-injection toy). | Explain prompt injection and "excessive agency" in 60 seconds |
+| Thu | 1.5 h | [14-qa-bank.md](14-qa-bank.md) round 1: answer **out loud**, then compare. Mark green / yellow / red. If you have 20 spare minutes, sketch **Lab 12** (STRIDE). | A coloured list of 45 questions |
 | Fri | rest | - | - |
-| Sat | 3 h | **Lab 12**: mock interview. Record yourself answering 15 random questions. Watch it back. | A list of three things to fix |
-| Sun | 1 h | Final pass on [12-cheat-sheets.md](12-cheat-sheets.md). Prepare your own "war story" (see below). Early night. | Your 2-minute war story |
+| Sat | 3 h | **Lab 13**: mock interview. Record yourself answering 15 random questions. Watch it back. Redo the red ones. | A list of three things to fix |
+| Sun | 1 h | Final pass on [16-cheat-sheets.md](16-cheat-sheets.md). Prepare your own "war story" (see below). Early night. | Your 2-minute war story |
 
 > **Your war story.** Interviewers remember stories, not definitions. Prepare one real example from your own work: a security bug you caught in code review, a dependency CVE you patched, an auth flaw you fixed. Structure: situation, what you did, outcome, what changed afterwards.
 
@@ -66,7 +64,7 @@ Reading is lighter this week; the extra time goes into hands-on work and reviewi
 
 ## If you fall behind
 
-1. Drop optional labs first (Juice Shop, extra TryHackMe rooms).
+1. Drop optional labs first (Lab 14 Juice Shop, extra TryHackMe rooms).
 2. Merge Week 2's lighter days into Week 1 or 3, but **never shorten Week 3**.
 3. Keep the Sunday teach-backs: they are the highest-value hour of the week.
 4. If you have only one hour tonight: do one lab and answer five questions from the Q&A bank out loud.

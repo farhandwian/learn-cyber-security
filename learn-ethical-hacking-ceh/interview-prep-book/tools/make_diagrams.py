@@ -114,10 +114,10 @@ class S:
 # --------------------------------------------------------------------------- study skills
 def d01():
     s = S(865, 365, "Your 4-week path", "About 10 hours a week: weekday evenings plus the weekend")
-    items = [("WEEK 1\nFoundations", NAVY, "• Security basics: CIA, attack phases\n• Cryptography and TLS\n• Networking and how the web works"),
-             ("WEEK 2\nRecon and scanning", TEAL, "• OSINT (passive recon)\n• nmap and port states\n• CVE, CWE, CVSS"),
-             ("WEEK 3\nWeb attacks", RED, "• OWASP Top 10 (2025)\n• SQLi, XSS, CSRF\n• IDOR, SSRF, auth\n★ highest interview value"),
-             ("WEEK 4\nSystems and review", GREEN, "• Network attacks and defenses\n• Malware, people, incident response\n• Q&A drill and mock interview")]
+    items = [("WEEK 1\nFoundations", NAVY, "• 2026 threat landscape\n• Basics, crypto, TLS\n• Networking and the web"),
+             ("WEEK 2\nRecon and web flaws", TEAL, "• nmap, CVE, CVSS, KEV\n• Patching as a control\n• Injection and XSS"),
+             ("WEEK 3\nAccess and identity", RED, "• IDOR/BOLA, API security\n• Phishing, MFA, passkeys\n• OAuth and session theft\n★ highest interview value"),
+             ("WEEK 4\nDefense and AI", GREEN, "• DDoS, ransomware, IR\n• Supply chain and cloud\n• AI and LLM security\n• Q&A drill, mock interview")]
     for i, (t, c, b) in enumerate(items):
         x = 20 + i * 212
         s.card(x, 80, 185, 205, t, b, c, hh=50)
@@ -152,7 +152,7 @@ def d03():
     ex = ["Untrusted input is run as part of a database query.",
           "Typing ' OR '1'='1 into a login form makes the condition always true.",
           "Parameterized queries, plus a database account with minimal rights.",
-          "Heartland Payment Systems: SQL injection led to about 130 million card numbers stolen."]
+          "MOVEit Transfer (2023): a SQL injection flaw led to data theft at thousands of organizations."]
     for i, (t, b) in enumerate(steps):
         x = 20 + i * 212
         s.card(x, 75, 185, 95, t, b, NAVY, hh=40)
@@ -255,32 +255,32 @@ def d08():
 
 
 def d09():
-    s = S(860, 450, "TCP handshake, and how a SYN flood abuses it")
+    s = S(860, 450, "The TCP handshake, and how nmap reads it")
     s.rect(15, 50, 410, 345, SKY, TEAL, 12); s.text(220, 76, "Normal 3-way handshake", 15, TEAL, "bold", "middle")
-    s.rect(435, 50, 410, 345, PINK, RED, 12); s.text(640, 76, "SYN flood (denial of service)", 15, RED, "bold", "middle")
+    s.rect(435, 50, 410, 345, SAND, AMBER, 12); s.text(640, 76, "nmap's SYN scan (half-open)", 15, AMBER, "bold", "middle")
     for nm, x in (("Client", 95), ("Server", 345)):
         s.box(x - 50, 90, 100, 34, nm, NAVY, NAVY, WHITE, 13, "bold"); s.line(x, 124, x, 290, MUTE, 1.5, True)
     for y, a, b, t in ((160, 95, 345, 'SYN  ("can we talk?")'), (215, 345, 95, 'SYN/ACK  ("yes, can you?")'), (270, 95, 345, 'ACK  ("yes")')):
         s.arrow(a + (3 if b > a else -3), y, b - (3 if b > a else -3), y, NAVY); s.text((a + b) / 2, y - 9, t, 11.5, anchor="middle")
     s.box(40, 322, 350, 44, "Connection established: data flows", MINT, GREEN, INK, 12.5)
-    for nm, x, c in (("Attacker", 520, RED), ("Server", 780, NAVY)):
-        s.box(x - 50, 90, 100, 34, nm, c, c, WHITE, 13, "bold"); s.line(x, 124, x, 240, MUTE, 1.5, True)
-    for i, y in enumerate((150, 183, 216)):
-        s.arrow(524, y, 776, y, RED); s.text(650, y - 7, "SYN  (fake source address)" if i == 0 else "SYN", 11.5, anchor="middle")
-    s.text(640, 262, "The server answers each SYN and waits for an ACK that never comes.", 12, INK, anchor="middle", width=380)
-    s.text(455, 313, "Waiting queue:", 12, MUTE, "bold")
-    for i in range(8):
-        s.rect(580 + i * 28, 299, 22, 18, RED, DARKRED, 3)
-    s.ctext(640, 345, "FULL: real users are refused (availability lost)", 12.5, RED, "bold", width=380)
+    for nm, x, c in (("Scanner", 520, AMBER), ("Target", 780, NAVY)):
+        s.box(x - 50, 90, 100, 34, nm, c, c, WHITE, 13, "bold"); s.line(x, 124, x, 330, MUTE, 1.5, True)
+    s.text(455, 150, "Open port (443)", 11.5, GREEN, "bold")
+    for y, a, b, t, c in ((172, 522, 778, "SYN", NAVY), (204, 778, 522, "SYN/ACK = OPEN", GREEN), (236, 522, 778, "RST (hangs up, no final ACK)", AMBER)):
+        s.arrow(a + (3 if b > a else -3), y, b - (3 if b > a else -3), y, c); s.text((a + b) / 2, y - 7, t, 11.5, anchor="middle")
+    s.text(455, 268, "Closed port (81)", 11.5, RED, "bold")
+    for y, a, b, t, c in ((288, 522, 778, "SYN", NAVY), (320, 778, 522, "RST = CLOSED", RED)):
+        s.arrow(a + (3 if b > a else -3), y, b - (3 if b > a else -3), y, c); s.text((a + b) / 2, y - 7, t, 11.5, anchor="middle")
+    s.text(640, 372, "Never completing the handshake means many services never log the probe.", 11.5, INK, anchor="middle", width=390)
     s.rect(15, 408, 830, 34, MINT, GREEN, 10)
-    s.ctext(430, 425, "Defenses: SYN cookies  ·  rate limiting  ·  upstream DDoS protection (CDN / scrubbing)", 12.5, INK, "bold")
-    s.save("09-tcp-synflood")
+    s.ctext(430, 425, "Why it matters: the handshake explains how connections start and how scanners read the reply.", 12.5, INK, "bold")
+    s.save("09-tcp-handshake-scan")
 
 
 def d10():
     s = S(880, 485, "What happens when you type https://bank.com", "Interview favourite: narrate the six steps and add one security note to each")
     st = [("1  DNS lookup", "The browser asks a DNS server: which IP address is bank.com?", "DNS spoofing sends you to a fake IP."),
-          ("2  TCP handshake", "SYN, SYN/ACK, ACK opens a connection to port 443.", "A SYN flood can exhaust the server."),
+          ("2  TCP handshake", "SYN, SYN/ACK, ACK opens a connection to port 443.", "Floods (DDoS) can overwhelm the server."),
           ("3  TLS handshake", "The server proves its identity with a certificate; both sides agree on a key.", "MITM or downgrade: certificates stop it."),
           ("4  HTTP request", "The browser sends GET /account plus cookies, now encrypted.", "Cookie theft (XSS), CSRF."),
           ("5  Server work", "Checks login, runs business logic, queries the database.", "SQL injection, IDOR, broken access control."),
@@ -300,8 +300,8 @@ def d11():
     s = S(860, 488, "Where attacks live in the network stack", "Interview trick: name one attack per layer")
     s.text(30, 82, "LAYER", 11, MUTE, "bold"); s.text(250, 82, "PROTOCOLS YOU KNOW", 11, MUTE, "bold"); s.text(520, 82, "TYPICAL ATTACKS", 11, MUTE, "bold")
     rows = [("Application", NAVY, "HTTP, HTTPS, DNS, SSH, SMTP", "SQL injection, XSS, CSRF, credential stuffing, phishing links"),
-            ("Transport", TEAL, "TCP, UDP (ports)", "SYN flood, port scanning, session hijacking"),
-            ("Internet", GREEN, "IP, ICMP", "IP spoofing, ping flood, routing attacks"),
+            ("Transport", TEAL, "TCP, UDP (ports)", "Port scanning, connection floods, session hijacking"),
+            ("Internet", GREEN, "IP, ICMP", "IP spoofing, route hijacking (BGP), amplification floods"),
             ("Link", AMBER, "Ethernet, Wi-Fi, ARP", "ARP spoofing, rogue Wi-Fi access point, sniffing")]
     for i, (n, c, p, a) in enumerate(rows):
         y = 92 + i * 92
@@ -457,7 +457,7 @@ def d18():
 
 
 def d19():
-    s = S(860, 440, "IDOR: logged in does not mean allowed")
+    s = S(860, 440, "IDOR / BOLA: logged in does not mean allowed")
     s.rect(15, 45, 830, 190, PINK, RED, 12); s.pill(110, 62, "VULNERABLE", RED, size=11)
     s.box(30, 90, 130, 64, "Alice\n(user 1001)", NAVY, NAVY, WHITE, 13, "bold")
     s.arrow(162, 112, 328, 112, RED); s.text(245, 103, "GET /orders/1002", 12, INK, anchor="middle", font=MONO)
@@ -555,7 +555,7 @@ def d23():
         s.text(240, y + 80, "bob", 12, INK, font=MONO); s.text(320, y + 80, b, 11.5, INK, font=MONO)
         s.text(560, y + 28, "both chose \"password123\"" if i != 0 else "both chose the same password", 10.5, MUTE, "bold")
         s.text(560, y + 50, v, 12, c, "bold", width=270)
-    s.text(20, 440, "Real case: LinkedIn (2012) stored unsalted SHA-1 hashes. About 117 million credentials surfaced in 2016, and many were cracked quickly.", 11.5, INK, width=820)
+    s.text(20, 440, "Why it matters today: leaked passwords are reused on other sites (credential stuffing). Passkeys remove the password entirely; where passwords remain, a slow salted hash limits the damage.", 11.5, INK, width=820)
     s.text(20, 480, "Rule: never encrypt passwords (keys get stolen) and never use a fast hash. Use a slow, salted password hash.", 12, GREEN, "bold", width=820)
     s.save("23-password-storage")
 
@@ -577,8 +577,215 @@ def d24():
     s.save("24-incident-response")
 
 
+# --------------------------------------------------------------------------- 2026 additions
+PURPLE = "#6b4fa0"
+
+
+def d25():
+    s = S(860, 485, "How breaches started in the 2026 Verizon report", "Share of breaches by initial access vector: latest report vs previous report")
+    rows = [("Exploited a vulnerability", 31, 20, RED), ("Abused stolen credentials", 13, 22, TEAL), ("Pretexting (social engineering)", 6, 6, AMBER)]
+    k = 9.5
+    for i, (lab, now, prev, c) in enumerate(rows):
+        y = 80 + i * 78
+        s.text(20, y + 22, lab, 13, INK, "bold", width=205)
+        s.rect(240, y + 4, now * k, 26, c, c, 4); s.text(240 + now * k + 8, y + 24, f"{now}%", 14, c, "bold")
+        s.rect(240, y + 36, prev * k, 16, "#c9d2d9", "#c9d2d9", 4); s.text(240 + prev * k + 8, y + 49, f"{prev}% in previous report", 11, MUTE)
+    tiles = [("48%", "of breaches involved a third party (was 30%)", NAVY), ("48%", "of breaches involved ransomware (was 44%)", RED),
+             ("43 days", "median time to fully patch known-exploited flaws (was 32)", AMBER), ("26%", "of known-exploited flaws were fully fixed (was 38%)", TEAL)]
+    for i, (big, cap, c) in enumerate(tiles):
+        x = 20 + i * 207
+        s.rect(x, 330, 195, 104, WHITE, c, 10)
+        s.text(x + 14, 366, big, 25, c, "bold"); s.text(x + 14, 388, cap, 11.5, INK, width=168)
+    s.text(20, 460, "Source: Verizon DBIR 2026 as reported by TechTarget and Help Net Security; breaches from about Nov 2024 to Oct 2025. Phishing's own share was not stated in those articles.", 10.5, MUTE, width=820)
+    s.save("25-how-breaches-start")
+
+
+def d26():
+    s = S(860, 530, "Adversary-in-the-middle phishing: how MFA gets bypassed")
+    s.lifelines([("Victim", 130, TEAL), ("Look-alike site", 430, RED), ("Real site", 730, NAVY)], 48, 420)
+    s.msg(135, 130, 430, "1  types password on look-alike site", RED)
+    s.msg(175, 430, 730, "2  relays the password", RED)
+    s.msg(215, 730, 430, "3  asks for the MFA code", NAVY)
+    s.msg(255, 130, 430, "4  victim enters the MFA code", RED)
+    s.msg(295, 430, 730, "5  relays the code: login succeeds", RED)
+    s.msg(335, 730, 430, "6  sends the session cookie", NAVY)
+    s.box(470, 358, 375, 56, "7  The proxy keeps the cookie. The attacker is now logged in as the victim. MFA was relayed, not broken.", PINK, RED, INK, 12)
+    s.box(15, 358, 385, 56, "A passkey refuses step 1: it only works for the real domain, so the look-alike gets nothing to relay.", MINT, GREEN, INK, 12)
+    s.rect(15, 445, 830, 64, SAND, AMBER, 10)
+    s.ctext(430, 477, "Defenses:  passkeys / FIDO2 keys  ·  short sessions and token binding  ·  risk-based conditional access  ·  revoke all sessions after a suspected phish", 12, INK, "bold", width=800)
+    s.save("26-aitm-phishing")
+
+
+def d27():
+    s = S(870, 445, "Not all MFA is equal", "Each step up beats more attacks. Only the last one resists phishing proxies.")
+    steps = [("Password\nonly", RED, 44, "BEATEN BY", "Guessing, reuse, credential stuffing, phishing"),
+             ("SMS code", ORANGE, 76, "BEATEN BY", "SIM swap, phishing, relay proxies"),
+             ("App code\n(TOTP)", AMBER, 108, "BEATEN BY", "Phishing proxies that relay the code"),
+             ("Push\napproval", "#8a9a2b", 140, "BEATEN BY", "Prompt bombing (fatigue) and relay proxies"),
+             ("Number-\nmatching push", "#4f9a4a", 172, "BEATEN BY", "Relay proxies (AiTM) still work"),
+             ("Passkey /\nFIDO2 key", GREEN, 204, "WEAK SPOT", "Look-alike sites fail: the key is bound to the real domain. Remaining risk: account recovery.")]
+    for i, (nm, c, h, lab, txt) in enumerate(steps):
+        x = 20 + i * 140
+        s.rect(x, 300 - h, 130, h, c, c, 6)
+        s.ctext(x + 65, 300 - h / 2, nm, 12.5, WHITE, "bold", width=118)
+        s.text(x + 4, 322, lab, 9.5, c, "bold")
+        s.text(x + 4, 338, txt, 11, INK, width=124, lh=1.28)
+    s.arrow(40, 76, 830, 76, MUTE); s.tag(435, 76, "stronger against phishing", 11.5, MUTE, "bold")
+    s.save("27-mfa-ladder")
+
+
+def d28():
+    s = S(860, 480, "A supply-chain worm: how one poisoned package spreads", "The pattern seen in the Shai-Hulud npm worm (2025) and the 2026 attacks on developer tools")
+    st = [("1  INSTALL", "A developer machine or build server installs a poisoned package."), ("2  STEAL", "An install script grabs tokens and secrets: npm, GitHub, cloud keys."),
+          ("3  REPUBLISH", "The attacker uses a stolen publish token to push bad versions of the victim's own packages."), ("4  SPREAD", "Everyone who installs those versions repeats step 1.")]
+    for i, (t, b) in enumerate(st):
+        x = 20 + i * 212
+        s.card(x, 75, 190, 130, t, b, RED if i != 3 else DARKRED, hh=34, size=12)
+        if i < 3:
+            s.arrow(x + 192, 140, x + 209, 140, MUTE)
+    s.path("M783,207 V240 H115 V209", RED, dash=True)
+    s.tag(449, 240, "repeat: it spreads like a worm", 11.5, RED, "bold")
+    s.text(20, 276, "Defenses that matter most for developers", 13, GREEN, "bold")
+    ds = ["Commit lockfiles and install exact versions", "Delay adopting brand-new versions (a few days' cooldown)", "Block or review install scripts",
+          "Short-lived publish tokens, MFA, trusted publishing", "Rotate secrets quickly after any alert", "CI with least privilege: no secrets for untrusted pull requests"]
+    for i, d in enumerate(ds):
+        x = 20 + (i % 3) * 282; y = 292 + (i // 3) * 66
+        s.box(x, y, 268, 54, d, MINT, GREEN, INK, 12)
+    s.text(20, 440, "Also remember XZ Utils (2024): a patient attacker became a maintainer and hid a backdoor in releases, so even trusted maintainers are a risk.", 11.5, MUTE, width=820)
+    s.save("28-supply-chain-worm")
+
+
+def d29():
+    s = S(860, 500, "Prompt injection: when the data tells the AI what to do", "An AI agent reads text an attacker wrote, then uses its tools with your permissions")
+    s.box(20, 85, 150, 56, "You\n(the user)", NAVY, NAVY, WHITE, 13, "bold")
+    s.box(20, 185, 190, 84, "Untrusted content:\nemail, web page, PDF,\nsupport ticket", PINK, RED, INK, 12)
+    s.rect(300, 80, 270, 195, SKY, TEAL, 12); s.text(435, 102, "AI agent (LLM + tools)", 13.5, TEAL, "bold", "middle")
+    s.text(316, 128, "Everything goes into ONE prompt:\n• your request\n• the system rules\n• the attacker's text", 12, INK, width=240)
+    s.text(316, 212, "3  The model cannot reliably tell instructions from data.", 12, RED, "bold", width=240)
+    s.box(660, 100, 180, 140, "Tools it can use:\nsend email\nread files\ncall APIs\nbrowse the web", WHITE, AMBER, INK, 12)
+    s.arrow(172, 113, 298, 113, NAVY); s.pill(235, 100, "1", NAVY)
+    s.arrow(212, 235, 298, 235, RED); s.pill(255, 222, "2", RED)
+    s.arrow(572, 170, 658, 170, RED); s.pill(615, 157, "4", RED)
+    s.text(20, 300, "1  You ask a normal question, such as \"summarize my inbox\".\n2  The agent reads content that hides instructions for it.\n3  The model follows the hidden instructions as if they were yours.\n4  The agent uses a tool with YOUR permissions, for example to send data out.", 11.5, INK, lh=1.4)
+    s.rect(15, 380, 830, 44, SAND, AMBER, 10)
+    s.ctext(430, 402, "The risky combination: private data  +  untrusted content  +  a way to send data out. Remove at least one.", 12.5, INK, "bold", width=800)
+    s.rect(15, 436, 830, 50, MINT, GREEN, 10)
+    s.ctext(430, 461, "Defenses: least-privilege tools · human approval for risky actions · treat model output as untrusted · no secrets in prompts · log tool use", 12, INK, "bold", width=800)
+    s.save("29-prompt-injection")
+
+
+def d30():
+    s = S(860, 420, "The modern ransomware chain", "It usually starts with access someone else already has: a flaw, a stolen login, or a convincing phone call")
+    cols = [("1  INITIAL ACCESS", "Edge-device flaw, stolen login, phishing, or a call to the help desk", "Patch edge devices fast; phishing-resistant MFA"),
+            ("2  TAKE CONTROL", "Steal admin rights; abuse remote-management tools", "Least privilege; alerts on new admin activity (EDR)"),
+            ("3  SPREAD", "Move across the network, often within hours or days", "Segment the network; restrict admin tools"),
+            ("4  STEAL DATA", "Copy data out first, so there is leverage even if you restore", "Watch outbound traffic; limit who can read what"),
+            ("5  ENCRYPT + EXTORT", "Lock systems and threaten to leak the data", "Offline, tested backups; a practised incident plan")]
+    for i, (h, how, de) in enumerate(cols):
+        x = 20 + i * 167
+        s.box(x, 80, 152, 46, h, RED, RED, WHITE, 12, "bold")
+        if i < 4:
+            s.arrow(x + 154, 103, x + 165, 103, MUTE)
+        s.cell(x, 136, 152, 100, "WHAT ATTACKERS DO", how, PINK, RED, RED)
+        s.cell(x, 244, 152, 92, "DEFENDER'S MOVE", de, MINT, GREEN, GREEN)
+    s.rect(15, 350, 830, 50, SAND, AMBER, 10)
+    s.ctext(430, 375, "Verizon DBIR 2026 (as reported): ransomware was present in 48% of breaches; 69% of ransomware victims did not pay; the median payment was about $140,000.", 12, INK, "bold", width=800)
+    s.save("30-ransomware-chain")
+
+
+def d31():
+    s = S(880, 410, "DDoS in 2026: what the data shows", "Cloudflare DDoS Threat Report, first half of 2026")
+    cards = [("Network-layer floods", "23.2 million attacks in H1 2026. DNS-based attacks (floods and amplification) were 34.3% of them, and reflection floods such as CLDAP are growing fast.", NAVY),
+             ("Hyper-volumetric", "935 attacks above 1 Tbps in H1 2026, 805 of them in Q2 alone: six times the previous quarter.", RED),
+             ("Application-layer (HTTP)", "29.64 trillion malicious HTTP requests in H1 2026. HTTP/2 Rapid Reset (2023) peaked near 398 million requests per second at Google.", TEAL)]
+    for i, (t, b, c) in enumerate(cards):
+        s.card(20 + i * 285, 72, 270, 168, t, b, c, hh=36, size=12)
+    s.rect(20, 254, 840, 44, SKY, TEAL, 10)
+    s.ctext(440, 276, "Most attacks are small and short: 96.62% of network-layer attacks stayed under 500 Mbps and 90.60% ended within 10 minutes.", 12, INK, "bold", width=810)
+    s.rect(20, 310, 840, 44, MINT, GREEN, 10)
+    s.ctext(440, 332, "Defenses: CDN or scrubbing provider (anycast)  ·  rate limiting  ·  cache what you can  ·  hide your origin IP  ·  a practised runbook", 12, INK, "bold", width=810)
+    s.text(20, 380, "SYN floods are not named in the report. Learn the idea in one line, and spend your time on DNS, reflection and HTTP floods.", 11.5, MUTE, width=840)
+    s.save("31-ddos-today")
+
+
+def d32():
+    s = S(860, 480, "Harvest now, decrypt later: why post-quantum crypto matters", "The risk is to data that must stay secret for many years")
+    st = [("1  TODAY", "An attacker records your encrypted traffic. They cannot read it yet.", NAVY), ("2  STORE", "Storage is cheap, so recordings are kept for years.", AMBER),
+          ("3  LATER", "A large quantum computer breaks RSA/ECC key exchange, and the old traffic becomes readable.", RED)]
+    for i, (t, b, c) in enumerate(st):
+        x = 20 + i * 282
+        s.card(x, 72, 250, 124, t, b, c, hh=34, size=12.5)
+        if i < 2:
+            s.arrow(x + 253, 134, x + 279, 134, MUTE)
+    s.rect(20, 210, 820, 40, SAND, AMBER, 10)
+    s.ctext(430, 230, "Who should worry first: data that must stay secret for 10+ years (health, legal, government, long-lived IP).", 12.5, INK, "bold", width=800)
+    s.line(40, 340, 820, 340, NAVY, 3)
+    pts = [(70, "Aug 2024", "NIST publishes FIPS 203, 204, 205\n(ML-KEM, ML-DSA, SLH-DSA)", True, "start", 20), (216, "Oct 2026", "NIST IR 8547 final:\nthe transition plan", False, "middle", 216),
+           (429, "After 2030", "RSA and ECC\ndeprecated", True, "middle", 429), (761, "After 2035", "disallowed in NIST\nstandards and guidelines", False, "end", 840)]
+    for x, lab, txt, above, anc, tx in pts:
+        s.p.append(f'<circle cx="{x}" cy="340" r="7" fill="{GREEN}" stroke="{WHITE}" stroke-width="2"/>')
+        if above:
+            s.text(tx, 290, lab, 12.5, GREEN, "bold", anc); s.text(tx, 306, txt, 11, INK, anchor=anc, lh=1.25)
+        else:
+            s.text(tx, 372, lab, 12.5, GREEN, "bold", anc); s.text(tx, 388, txt, 11, INK, anchor=anc, lh=1.25)
+    s.rect(20, 425, 820, 40, MINT, GREEN, 10)
+    s.ctext(430, 445, "What you do now: inventory where RSA/ECC is used, prefer TLS 1.3, stay crypto-agile, and plan for hybrid post-quantum key exchange.", 12, INK, "bold", width=800)
+    s.save("32-post-quantum")
+
+
+def d33():
+    s = S(905, 522, "OWASP Top 10 for LLM Applications (2025) at a glance", "Prompt injection is #1. Many of the rest are old web ideas in a new place.")
+    t = [("LLM01", "Prompt Injection", "Crafted input, direct or hidden in content the model reads, changes its behaviour.", "Least privilege plus human approval for risky actions."),
+         ("LLM02", "Sensitive Information Disclosure", "The model or app leaks private data, secrets or personal information.", "Keep secrets out of prompts; per-user access control."),
+         ("LLM03", "Supply Chain", "Poisoned models, datasets, plugins or dependencies.", "Trusted sources; pin, scan and verify."),
+         ("LLM04", "Data and Model Poisoning", "Tampered training, fine-tuning or embedding data.", "Vet data sources; monitor and test."),
+         ("LLM05", "Improper Output Handling", "The app trusts model output (XSS, SQL, code execution).", "Treat output like user input: validate and encode."),
+         ("LLM06", "Excessive Agency", "The AI has more tools, rights or autonomy than it needs.", "Minimal tools and permissions; human approval."),
+         ("LLM07", "System Prompt Leakage", "Secrets or rules in the system prompt get exposed.", "Never rely on a prompt for secrets or security."),
+         ("LLM08", "Vector and Embedding Weaknesses", "Flaws in RAG stores: leaks, poisoning, no access control.", "Per-user access control on retrieval."),
+         ("LLM09", "Misinformation", "Confident wrong answers cause real harm.", "Ground answers in sources; verify; show citations."),
+         ("LLM10", "Unbounded Consumption", "Unlimited use drives cost or denial of service.", "Rate limits, quotas and budgets.")]
+    for i, (n, nm, what, fix) in enumerate(t):
+        x = 20 + (i % 5) * 175; y = 72 + (i // 5) * 205
+        s.rect(x, y, 165, 195, WHITE, PURPLE, 10)
+        s.p.append(f'<path d="M{x},{y+68} L{x},{y+10} Q{x},{y} {x+10},{y} L{x+155},{y} Q{x+165},{y} {x+165},{y+10} L{x+165},{y+68} Z" fill="{PURPLE}"/>')
+        s.text(x + 10, y + 17, n, 12, "#d9cdf0", "bold"); s.text(x + 10, y + 34, nm, 11.5, WHITE, "bold", width=122, lh=1.2)
+        s.text(x + 10, y + 90, what, 10.5, INK, width=145, lh=1.28)
+        s.rect(x + 6, y + 142, 153, 47, MINT, GREEN, 6)
+        s.text(x + 12, y + 156, "FIX: " + fix, 10, GREEN, "bold", width=141, lh=1.22)
+    s.text(20, 494, "Source: genai.owasp.org. The separate OWASP Top 10 for Agentic Applications (Dec 2025) covers goal hijack, tool misuse, identity abuse and more.", 10.5, MUTE, width=860)
+    s.save("33-owasp-llm-top10")
+
+
+def d34():
+    s = S(880, 490, "Where to spend your study time", "Ranked by how often it happens in 2025-26 reports and how often interviewers ask")
+    cols = [("LEARN WELL", GREEN, MINT, ["Vulnerability exploitation and patching", "Stolen credentials, MFA and passkeys", "Phishing, AiTM, help-desk social engineering",
+                                       "Third-party and supply-chain risk", "Ransomware and incident response", "Web basics: injection, XSS, BOLA/IDOR, CSRF, SSRF",
+                                       "API security, OAuth and JWT", "AI and LLM security", "Cloud misconfiguration and secrets"]),
+            ("KNOW IN ONE LINE", AMBER, SAND, ["SYN floods and classic DDoS types", "ARP spoofing and local MITM", "Virus vs worm vs trojan",
+                                              "DNS spoofing and zone transfers", "Post-quantum crypto: the term and the dates", "Wi-Fi standards (WPA3)"]),
+            ("SKIP FOR NOW", MUTE, GREY, ["WEP and old Wi-Fi cracking", "FTP, Telnet and SSL legacy details", "Rootkit internals", "Breaches from 2008-2017 as your examples",
+                                         "Exploit-framework tool tutorials", "Manual hash-cracking tools"])]
+    for i, (h, c, f, items) in enumerate(cols):
+        x = 20 + i * 285
+        s.rect(x, 72, 270, 380, f, c, 12)
+        s.p.append(f'<path d="M{x},106 L{x},84 Q{x},72 {x+12},72 L{x+258},72 Q{x+270},72 {x+270},84 L{x+270},106 Z" fill="{c}"/>')
+        s.ctext(x + 135, 90, h, 14, WHITE, "bold")
+        y = 134
+        for it in items:
+            lines = wrap(it, 220, 11.5)
+            s.text(x + 14, y, "•", 11.5, c, "bold"); s.text(x + 28, y, "\n".join(lines), 11.5, INK, lh=1.28)
+            y += len(lines) * 11.5 * 1.28 + 9
+    s.text(20, 475, "Tiers follow the Verizon DBIR 2026 and Cloudflare H1 2026 reports. Chapter 2 explains the evidence.", 11.5, MUTE, width=840)
+    s.save("34-study-priority")
+
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
-    for f in (d01, d02, d03, d04, d05, d06, d07, d08, d09, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24):
+    for old in os.listdir(OUT):
+        if old.endswith(".svg"):
+            os.remove(os.path.join(OUT, old))
+    for f in (d01, d02, d03, d04, d05, d06, d07, d08, d09, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24,
+              d25, d26, d27, d28, d29, d30, d31, d32, d33, d34):
         f()
     print("wrote", len([n for n in os.listdir(OUT) if n.endswith(".svg")]), "diagrams to", os.path.abspath(OUT))

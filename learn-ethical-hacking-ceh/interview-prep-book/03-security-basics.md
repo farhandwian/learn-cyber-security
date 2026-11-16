@@ -1,8 +1,8 @@
-# Chapter 2: Security Basics
+# Chapter 3: Security Basics
 
 > **Goal.** After this chapter you can: explain the CIA triad with an example for each letter; define vulnerability, threat, risk and exploit without mixing them up; walk through the five phases of an attack; tell a white hat from a black hat and a red team from a blue team; explain the difference between a vulnerability assessment and a penetration test; and name the two design principles interviewers love (least privilege and defense in depth).
 >
-> **Time:** about 2 hours. **Companion reading:** Bab 0 of your Indonesian book.
+> **Time:** about 1.5 hours. **Still relevant in 2026?** Yes: this is the vocabulary of every interview. **Companion reading:** Bab 0 of your Indonesian book.
 
 ---
 
@@ -25,13 +25,13 @@ Every security property fits into one of three buckets. When an interviewer asks
 | --- | --- | --- | --- |
 | **Confidentiality** | Can only the right people read this? | A database leak, an exposed cloud bucket | Encryption, access control, MFA |
 | **Integrity** | Is this data exactly what it should be? | Someone silently edits a payment amount | Hashing, digital signatures, input validation, audit logs |
-| **Availability** | Does the system work when needed? | Ransomware, a DDoS flood | Redundancy, backups, rate limiting, DDoS protection |
+| **Availability** | Does the system work when needed? | Ransomware, a DDoS flood | Redundancy, tested backups, rate limiting, DDoS protection |
 
 > **Analogy.** Think of a letter. A *sealed envelope* gives confidentiality. A *tamper-evident seal* gives integrity. A *postbox that is open when you need it* gives availability.
 
 Two extra words you will hear: **authenticity** (is the sender really who they claim?) and **non-repudiation** (the sender cannot later deny they did it; digital signatures provide this).
 
-> **Common mistake.** Treating security as only "keeping secrets". A bank that stays secret but is offline all day has failed at availability. A bank whose balances can be edited by anyone has failed at integrity.
+> **Common mistake.** Treating security as only "keeping secrets". A hospital whose data stays secret but whose systems are locked by ransomware has failed at availability. A bank whose balances can be edited by anyone has failed at integrity.
 
 ---
 
@@ -45,10 +45,10 @@ These words are used loosely in everyday talk but precisely in interviews. Learn
 | **Vulnerability** | A weakness | The window lock is broken | A query built by string concatenation |
 | **Threat** | Something that could exploit the weakness | A burglar | An attacker, malware, a careless insider |
 | **Exploit** | The technique or code that uses the weakness | Climbing in through the window | A crafted input that triggers the bug |
-| **Payload** | What runs after the exploit works | What the burglar does inside | Malware, a reverse shell, a data dump |
+| **Payload** | What runs after the exploit works | What the burglar does inside | Malware, a data dump |
 | **Risk** | How bad and how likely | Likely in a bad area, high value inside | **Likelihood × impact** |
 | **Control** | Something that reduces risk | Fix the lock, add an alarm | Patch, input validation, MFA |
-| **Attack surface** | Everything an attacker can reach | Every door and window | Every endpoint, port, input field, dependency |
+| **Attack surface** | Everything an attacker can reach | Every door and window | Every endpoint, port, input field, dependency, vendor |
 | **Zero-day** | A flaw nobody has patched yet (the vendor has had *zero days* to fix it) | A lock flaw nobody knows about | An unreported bug that is already being exploited |
 
 **Risk, in one worked example.** A bug that is trivial to trigger from the internet and exposes every customer's data is **high** risk. A bug that needs physical access to a locked server room and reveals nothing sensitive is **low** risk, even if it is technically "a vulnerability". This is why not every finding is urgent.
@@ -64,12 +64,14 @@ Attackers rarely just "hack". They work through a repeatable process. Knowing it
 ![The five phases of an attack](images/05-five-phases.svg)
 
 1. **Reconnaissance.** Learn about the target without touching it: public records, job postings, employee names on LinkedIn, leaked data.
-2. **Scanning.** Actively probe: which machines are alive, which ports are open, which software versions run. (Week 2 covers this.)
-3. **Gaining access.** Use a weakness: an injection flaw, a stolen password, an unpatched service.
+2. **Scanning.** Actively probe: which machines are alive, which ports are open, which software versions run. (Chapter 6 covers this.)
+3. **Gaining access.** Use a weakness: an injection flaw, a stolen password, an unpatched service, or a persuasive phone call.
 4. **Maintaining access.** Make sure you can come back: a backdoor, a new admin account, a scheduled task.
 5. **Covering tracks.** Hide the evidence: delete or edit logs.
 
 **The defender's mirror image:** each phase has a counter-move (see the green row in the diagram). The best defence breaks the chain *early*, because an attacker blocked at phase 2 never reaches phase 3.
+
+> **How the pros say it.** The industry's detailed version of this model is **MITRE ATT&CK**, a public catalogue of attacker tactics and techniques (Chapter 2). Your five phases are the simple summary.
 
 > **Common mistake.** Thinking the phases are always strictly linear. Real attacks loop: after gaining access to one machine, an attacker goes back to phase 1 and 2 to explore the *next* machine inside the network.
 
@@ -85,15 +87,9 @@ Attackers rarely just "hack". They work through a repeatable process. Knowing it
 | **Black hat** | No | Profit, damage | A criminal running ransomware |
 | **Grey hat** | No, but meaning well | Often to report a flaw | Someone who finds a bug without permission and tells the owner (still legally risky) |
 
-**Teams** (about role inside an organization):
+**Teams:** **red team** simulates real attackers; **blue team** defends, monitors and responds; **purple team** is both sharing findings so defences improve faster.
 
-| Team | Role |
-| --- | --- |
-| **Red team** | Simulates real attackers to test the whole defence |
-| **Blue team** | Defends: monitors, detects, responds |
-| **Purple team** | Red and blue working together, sharing findings so defences improve faster |
-
-**Other attacker types worth naming:** *script kiddies* (use others' tools), *insiders* (employees with legitimate access), *hacktivists* (political motives), and *APTs / nation-state actors* (patient, well-funded, targeted).
+**Attackers worth naming today:** financially motivated **ransomware and extortion crews** (the most common), **insiders**, **state-sponsored groups** (patient and well-funded), and loosely organized **youth-led groups** that specialize in social engineering of help desks and employees.
 
 > **What makes hacking "ethical"?** Three things: **permission** (written authorization), **scope** (a clear list of what you may test and what you may not), and **reporting** (findings go to the owner, privately, with enough detail to fix them). Take away any one and it is no longer ethical hacking.
 
@@ -119,17 +115,17 @@ Attackers rarely just "hack". They work through a repeatable process. Knowing it
 
 Three more one-liners worth keeping:
 
-- **Never trust user input.** Anything that crosses a trust boundary (form fields, headers, URLs, uploaded files, even data from other services) is hostile until validated.
+- **Never trust user input.** Anything that crosses a trust boundary (form fields, headers, URLs, uploaded files, data from other services, and now **text an AI model reads**) is hostile until validated.
 - **Fail closed.** When something breaks, deny access by default instead of allowing it.
 - **Security through obscurity is not security.** Hiding how something works is a bonus layer, never the only one. (A secret URL is not an access control.)
 
 ---
 
-## 8. Real cases
+## 8. Real cases (both about missing basics)
 
-> **Real case: Target (2013).** Attackers got into Target's network using stolen credentials from a heating-and-cooling contractor that had remote access for billing. Because the network was not well separated, they reached the payment systems and about **40 million** card records were stolen. *Lessons:* **least privilege** (a vendor portal should not lead to payment systems) and **network segmentation** (so one break-in does not become total access). Public reports differ on the exact path, but the vendor-credentials-plus-flat-network pattern is the standard teaching example.
+> **Real case: Change Healthcare (2024).** Attackers entered on 12 February 2024 through a remote-access portal that **had no multi-factor authentication**, using stolen credentials, then spent about nine days moving through the network before deploying ransomware. The company later reported that roughly **190 million** people were affected. *Lessons:* **one missing basic control** (MFA) and **too much freedom once inside** (least privilege and segmentation). (Sources: TechTarget, SecurityWeek; see [Sources](18-sources.md).)
 
-> **Real case: Equifax (2017).** A critical flaw in Apache Struts (CVE-2017-5638) had a patch available from the project in March 2017. Equifax did not apply it to an internet-facing system in time, and personal data of roughly **147 million** people was exposed. *Lesson:* many "hacks" are really **patch-management failures**; knowing which software you run and keeping it updated is a security control.
+> **Real case: Klue (2026).** Attackers used a **credential issued in 2022 for a limited pilot** that was never retired, and reached data about roughly **200 downstream companies**, including customers' cloud keys. Klue confirmed the incident. *Lessons:* **credential lifecycle** (retire what you no longer need) and **least privilege** for vendors. (Source: TechCrunch's 2026 roundup.)
 
 ---
 
@@ -146,7 +142,7 @@ Three more one-liners worth keeping:
 
 1. Confidentiality: a database leak. Integrity: someone silently edits a payment amount. Availability: ransomware or a DDoS flood.
 2. A vulnerability is the weakness; a threat is the actor or event that could use it. The weakness exists with or without a threat.
-3. Recon, scanning, gaining access, maintaining access, covering tracks. Phase 3 example: exploiting an injection flaw, a stolen password, or an unpatched service.
+3. Recon, scanning, gaining access, maintaining access, covering tracks. Phase 3 example: exploiting an injection flaw, using a stolen password, an unpatched service, or a persuasive phone call.
 4. Written permission, a defined scope, and responsible reporting to the owner.
 5. An assessment is broad and automated and lists *possible* weaknesses. A pentest is narrow and manual and reports only the ones that led to *proven impact*.
 6. Least privilege: each user and program gets only the access it needs. Defense in depth: stack overlapping controls so one failure is not fatal.
@@ -159,4 +155,4 @@ Three more one-liners worth keeping:
 - Vulnerability = weakness, threat = who could use it, risk = likelihood × impact.
 - Five phases: recon, scanning, gaining access, maintaining access, covering tracks. Defenders break the chain early.
 - Ethical hacking = permission + scope + reporting. Assessment is broad; pentest is deep.
-- Least privilege and defense in depth are your two favourite design answers. Many real breaches (Target, Equifax) come down to these.
+- Least privilege and defense in depth are your two favourite design answers. Recent breaches (Change Healthcare, Klue) came down to a missing basic and too much access.

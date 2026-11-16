@@ -61,7 +61,7 @@ def kind(label):
     return ""
 
 
-NAMES = {"01": "Daily plan", "10": "Q&A bank", "11": "Labs", "12": "Cheat sheets", "13": "Glossary", "14": "Sources"}
+NAMES = {"00": "Start here", "01": "Daily plan", "14": "Q&A bank", "15": "Labs", "16": "Cheat sheets", "17": "Glossary", "18": "Sources"}
 
 
 def link_text(m):
@@ -83,11 +83,12 @@ def render(md_text, stem):
 def main():
     files = sorted(glob.glob(os.path.join(BOOK, "[0-9][0-9]-*.md")))
     body = ['<section class="cover"><h1>Security Interview Prep</h1><div class="bar"></div>'
-            '<p class="sub">4-Week Crash Course &middot; Illustrated Edition</p>'
+            '<p class="sub">4-Week Crash Course &middot; Illustrated Edition &middot; Updated November 2026</p>'
             '<p>For a working software engineer with one month, about 10 hours a week, and one goal: '
             'pass a security-flavoured technical interview.</p>'
-            '<p>24 diagrams &middot; 8 chapters &middot; 12 hands-on labs &middot; 40 interview questions with model answers.</p>'
-            '<p class="meta">Built on the OWASP Top 10:2025 and public incident reporting. See the last chapter for sources.</p></section>']
+            '<p>34 diagrams &middot; 12 chapters &middot; 14 hands-on labs &middot; 45 interview questions with model answers.</p>'
+            '<p class="meta">Built on the Verizon DBIR 2026, Cloudflare&rsquo;s H1 2026 DDoS report, the OWASP Top 10 lists, NIST and public incident reporting. '
+            'See the last chapter for sources and accuracy notes.</p></section>']
     for f in files:
         stem = os.path.splitext(os.path.basename(f))[0]
         body.append(render(open(f, encoding="utf-8").read(), stem))
