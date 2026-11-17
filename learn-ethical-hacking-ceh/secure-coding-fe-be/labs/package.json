@@ -1,0 +1,22 @@
+{
+  "name": "secure-coding-labs",
+  "private": true,
+  "type": "module",
+  "description": "Runnable vulnerable-vs-fixed labs for the Secure Coding for Frontend and Backend Engineers book. Local use only.",
+  "scripts": {
+    "lab1": "node lab1_bola.mjs",
+    "lab2": "node lab2_xss_csp.mjs",
+    "lab3": "node lab3_jwt.mjs",
+    "lab4": "node lab4_webhook.mjs",
+    "lab5": "node lab5_passwords.mjs",
+    "lab6": "node lab6_ratelimit.mjs",
+    "lab7": "node lab7_ssrf.mjs",
+    "all": "node lab1_bola.mjs && node lab2_xss_csp.mjs && node lab3_jwt.mjs && node lab4_webhook.mjs && node lab5_passwords.mjs && node lab6_ratelimit.mjs && node lab7_ssrf.mjs"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.0.0",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

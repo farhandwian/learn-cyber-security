@@ -1,0 +1,64 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Lab 2: DOM sinks (local demo)</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 760px; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+  textarea { width: 100%; font-family: ui-monospace, monospace; }
+  button { margin: 4px 4px 4px 0; padding: 6px 10px; }
+  #out { border: 1px solid #888; padding: 10px; min-height: 40px; margin-top: 10px; }
+  .bad { background: #fbeaea; } .good { background: #e7f5ec; }
+</style>
+<h1>Lab 2: DOM sinks</h1>
+<p>Open this file in your browser (it is a local page; the only "attack" is a harmless alert box).
+   Paste one payload at a time into the box, then click each button and compare.</p>
+<ul>
+  <li>HTML payload: <code>&lt;img src=x onerror="alert('xss ran')"&gt;</code></li>
+  <li>URL payload: <code>javascript:alert('xss ran')</code> (then click the link that appears)</li>
+</ul>
+
+<textarea id="input" rows="3" placeholder="paste a payload here"></textarea>
+<div>
+  <button class="bad"  id="unsafeHtml">innerHTML (UNSAFE)</button>
+  <button class="good" id="safeHtml">textContent (SAFE)</button>
+  <button class="bad"  id="unsafeUrl">link with raw href (UNSAFE)</button>
+  <button class="good" id="safeUrl">link with scheme allowlist (SAFE)</button>
+</div>
+<div id="out"></div>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  const out = $("out"), input = $("input");
+
+  // UNSAFE: the string is parsed as HTML, so event-handler attributes run.
+  $("unsafeHtml").onclick = () => { out.innerHTML = input.value; };
+
+  // SAFE: the string is treated as plain text.
+  $("safeHtml").onclick = () => { out.textContent = input.value; };
+
+  function makeLink(href) {
+    const a = document.createElement("a");
+    a.textContent = "click me";
+    a.href = href;
+    a.rel = "noopener noreferrer";
+    out.replaceChildren(a);
+  }
+
+  // UNSAFE: a javascript: URL executes when the link is clicked.
+  $("unsafeUrl").onclick = () => makeLink(input.value);
+
+  // SAFE: only allow http, https and mailto; anything else becomes "#".
+  function safeHref(value) {
+    try {
+      const url = new URL(value, window.location.href);
+      return ["http:", "https:", "mailto:"].includes(url.protocol) ? url.toString() : "#";
+    } catch { return "#"; }
+  }
+  $("safeUrl").onclick = () => makeLink(safeHref(input.value));
+</script>
+
+<h2>What you should see</h2>
+<ul>
+  <li><b>innerHTML:</b> the alert pops (the "text" became live HTML). <b>textContent:</b> the payload is shown literally.</li>
+  <li><b>raw href:</b> clicking the link runs the alert. <b>allowlist:</b> the link goes nowhere (<code>#</code>).</li>
+</ul>
+<p>Now imagine <code>input.value</code> is a comment from another user stored in your database. That is stored XSS.</p>
