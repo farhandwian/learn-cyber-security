@@ -61,7 +61,7 @@ def kind(label):
     return ""
 
 
-NAMES = {"00": "Start here", "01": "Plan", "12": "Interview Q&A", "13": "Labs", "14": "Cheat sheets", "15": "Sources"}
+NAMES = {"00": "Start here", "01": "Plan", "12": "Interview Q&A", "13": "Labs", "14": "Cheat sheets", "15": "Sources", "16": "Hands-on practice"}
 
 
 def link_text(m):
