@@ -10,6 +10,9 @@
 
 Staff, vendors and apps log in from anywhere, so **the login is the perimeter**. In Verizon's 2026 data (as reported), stolen credentials and pretexting were about 13% and 6% of breach starts, and most ransomware stories begin with someone's valid access.
 
+> **Remember:** Attackers increasingly **log in** instead of breaking in, so protecting accounts is protecting the network.
+
+
 ## 2. How logins get stolen
 
 | Method | How | Main defence |
@@ -21,7 +24,11 @@ Staff, vendors and apps log in from anywhere, so **the login is the perimeter**.
 | **Help-desk calls** | Impersonate an employee to get a reset | Strong verification, call-back |
 | **MFA fatigue** | Spam push prompts until "yes" | Number matching, passkeys |
 
+> **Quick way to remember four:** stuffing and spraying are guessing at scale, an infostealer takes from the device, and phishing tricks the user.
+
 > **Real case: Snowflake customers (2024).** Mandiant traced the incidents to compromised customer credentials, mostly from infostealers. The accounts had no MFA, credentials were still valid (some from infections back to 2020) and there was no network allow-list. At least 165 organizations were hit; Snowflake's own platform was not breached. Lessons: enforce MFA, rotate old credentials, restrict login origins.
+
+> **Remember:** Logins are stolen by phishing, reused passwords and infostealer malware. Defences: MFA, unique passwords, breach checks, rate limits.
 
 ---
 
@@ -31,21 +38,57 @@ Staff, vendors and apps log in from anywhere, so **the login is the perimeter**.
 
 Each rung beats more attacks, but **only passkeys/FIDO2 resist phishing proxies**, and even they have a weak spot in account recovery. "We have MFA, so we're safe" is a common mistake: codes and push approvals can be relayed.
 
+> **Remember:** Order of strength: **password only, SMS code, app code or push, passkey or hardware key.** Passkeys and hardware keys are phishing-resistant.
+
+
 ## 4. AiTM phishing and session theft
 
 The attacker runs a look-alike login page that is a **live proxy** to the real site. The victim enters the password and approves MFA, and the proxy captures the **session cookie** the real site issues. The attacker replays it without breaking MFA.
 
 ![Adversary-in-the-middle phishing](images/26-aitm-phishing.svg)
 
+**Why a backend allow-list of origins (CORS) does not stop this.** CORS is enforced by the *victim's browser* and only limits which sites' JavaScript can read responses. In AiTM the victim's browser only talks to the fake domain (same origin from its point of view). The real site is called by the **attacker's server**, where CORS does not apply and headers like `Origin` and `Host` can be rewritten. The real site sees a normal login: correct password, valid MFA code, then a valid session cookie, which the proxy copies and replays. So the real site can only notice indirect signals (datacenter IP, new device or user-agent), not a "wrong" request.
+
 **Changing the password does not end the access**: the stolen session stays valid until it expires or is revoked. Defences: passkeys (bound to the real domain), shorter sessions and risk-based re-checks, **revoking all sessions** when phishing is suspected, and monitoring for new mailbox rules, devices and impossible travel.
+
+> **Remember:** **AiTM phishing** relays your real login through a fake site and steals the session, even past some MFA. Phishing-resistant MFA (passkeys) defeats it.
+
 
 ## 5. Passkeys
 
 A passkey is public-key login (WebAuthn/FIDO2): at registration the device makes a key pair for the site and gives it the public key; at login it signs the site's random challenge with the private key (after you unlock it), and the signature is tied to the real domain. Benefits: phishing-resistant, nothing reusable on the server, no stuffing or spraying. **Honest limits:** account recovery becomes the weakest link, adoption is partial, and passkeys do not help if malware already runs on the device.
 
+![Passkey challenge and signature](images/passkey-challenge.svg)
+
+### How the server knows it has the right public key
+
+The server never takes the public key from the login request. It saves the key **once, at registration**, and at every login it **looks up its own stored copy** and checks the signature against that.
+
+| Step | What happens | Why it is safe |
+| --- | --- | --- |
+| **Register** (once, while you are already authenticated) | Device makes a key pair and sends the **public key** and a **credential ID**. The server stores both against your account. | The site already trusts you at this moment (you just signed up or logged in). |
+| **Log in** (every time) | The server finds the stored public key for your credential ID, sends a fresh challenge, and verifies the returned signature with that stored key. | The login request carries only a signature and an ID, never a key to trust. |
+| **After a valid signature** | The server creates a normal **session** and sends a cookie. | The passkey proves who you are once; the cookie then proves it on later requests. |
+
+**Why an attacker cannot swap in their own key:** a signature made with the attacker's private key fails against *your* stored public key. To get a fake key accepted they would have to write to the server's database, which means the server is already broken.
+
+**Why the server needs no private key:** a signature is *made* with the private key and *checked* with the public key. The two are mathematically linked one way: it is easy to go from private to public and practically impossible to go back. Only a holder of the private key can produce a signature that passes the check for this exact challenge and domain. (Encryption works the other way round, which is where the "receiver needs a private key" idea comes from.)
+
+**Where the private key lives:** it is a random key held in secure hardware (Secure Enclave, TPM, a hardware key). Your fingerprint, face or PIN does **not** make the key; it only unlocks the hardware so it may sign. The biometric never leaves the device, and the site never sees it.
+
+**Why not do the same challenge with a password?** The secret is still typed by a human, so on a phishing page the attacker captures it before any challenge runs. A password is also a *shared* secret: the server must hold it or something equivalent, so a database leak helps the attacker. A passkey server stores only public keys, which are useless to a thief.
+
+**The real weak point is registration and recovery.** The server trusts a public key because it was added through an authenticated step. If an attacker tricks that step (a help-desk reset, a hijacked recovery email), they can enrol **their own** passkey on your account. Defences: re-authenticate before adding a passkey, send a notification when one is added, let users review and remove passkeys, and verify strongly in help-desk resets.
+
+And after login the **session cookie** becomes the target: malware that steals it gets in without the passkey. Keep cookies `HttpOnly`, `Secure` and `SameSite`, expire them quickly, and be able to revoke sessions.
+
+> **Remember:** The server trusts the public key it stored at registration, not one sent at login. A passkey stops phishing at login; weak recovery and stolen session cookies are what remain.
+
 ![Password storage](images/23-password-storage.svg)
 
 **Passwords you still store (OWASP minimums):** Argon2id (m=19 MiB, t=2, p=1), scrypt (N=2^17, r=8, p=1), bcrypt (work factor 10+, 72-byte limit) or PBKDF2-HMAC-SHA256 (600,000 iterations). Store parameters with the hash, rehash on login, rate-limit, never use fast hashes or reversible encryption.
+
+> **Remember:** A passkey is a key pair: the private key stays on your device and is bound to the real site, so a fake site gets nothing.
 
 ---
 
@@ -65,6 +108,8 @@ A passkey is public-key login (WebAuthn/FIDO2): at registration the device makes
 
 > **Real case: Salesloft Drift (August 2025).** Attackers obtained OAuth tokens for the Drift integration and used them to pull data from many customers' Salesforce accounts; Google's threat team said it knew of 700+ potentially impacted organizations. Lessons: a vendor's token is your data; least-privilege scopes, an inventory of connected apps, fast revocation.
 
+> **Remember:** **Session** = server remembers you. **JWT** = signed token you present; always *verify* it. **OAuth** = letting an app act for you without sharing your password.
+
 ---
 
 ## 7. Social engineering today
@@ -83,6 +128,8 @@ Verizon's 2026 report (as reported) splits out **pretexting** at about 6%. Attac
 **Mindset:** assume someone will be fooled, and make sure one fooled person cannot do catastrophic damage.
 
 > **AI-agent era.** Agents are "phished" the way users are: hostile text in a web page, issue or tool description can steer them (prompt injection, Chapter 11), and they act with your tokens. Give agents their own scoped, short-lived credentials, never your personal admin session, and never leave long-lived tokens in files or the environment an agent can read: the 2025 Nx "s1ngularity" attack made installed AI tools hunt for secrets on developer machines (over 400 users or organizations affected, as reported by InfoQ).
+
+> **Remember:** Social engineering targets people (help desks, urgent requests). Defence: verify identity with a known channel, never on the caller's say-so.
 
 ---
 

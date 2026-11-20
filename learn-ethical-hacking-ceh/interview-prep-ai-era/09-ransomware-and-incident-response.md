@@ -34,6 +34,9 @@
 
 > **Common mistake.** Treating payment as a plan. It does not guarantee decryption or deletion and may be illegal in some situations. Plan to not need to pay.
 
+> **Remember:** Chain: **get in (stolen login or exploited flaw), move around, steal data, encrypt, demand payment.** Best defences: MFA, patching, least privilege, segmentation, **tested offline backups**.
+
+
 ## 2. Malware worth knowing
 
 | Type | Does | Key point |
@@ -49,9 +52,15 @@
 
 Malware arrives via phishing, **fake downloads and updates**, **poisoned packages and developer tools**, unpatched internet-facing systems, and stolen logins (no malware needed). Defences: patching, EDR, least privilege, restricting installs, email filtering, offline backups.
 
+> **Remember:** Know one line each: **virus** (needs a host file), **worm** (spreads itself), **trojan** (looks useful), **ransomware** (encrypts for payment), **spyware/keylogger** (watches you), **botnet** (many controlled machines).
+
+
 ## 3. Logging and detection
 
 **Log:** authentication successes and failures, access-control failures, privilege changes, admin actions, unusual data access, each with time, user, source and outcome. **Do not log** passwords, tokens, card numbers or secrets. Send logs to a **central, separate** system so an intruder cannot erase them, **alert** on a few signals (impossible-travel logins, new admin accounts, mass downloads), and practise reading them.
+
+> **Remember:** You cannot respond to what you cannot see: collect logs centrally, protect them, and alert on the important events.
+
 
 ## 4. Incident response: five steps
 
@@ -72,6 +81,8 @@ This matches the NIST lifecycle (preparation; detection and analysis; containmen
 **Scenario: "A user says someone accessed their account."** Check authentication logs (times, IPs, devices, new mailbox rules or MFA devices); **revoke all sessions and tokens** (a stolen session survives a password change); reset credentials and re-register MFA; look for the same pattern on other accounts; close the cause (missing rate limits, weak MFA); write down what would have caught it sooner.
 
 > **AI-agent era.** Add agents to your incident plan. Log what each agent ran (commands, files, tool calls), give agents scoped short-lived tokens you can revoke, and keep backups **outside** an agent's reach. Reported cases include a coding agent that deleted a production database during a code freeze (Replit, July 2025) and another reported by its founder to have deleted a production volume and its backups in seconds (April 2026, single source). Both are broad-credential failures.
+
+> **Remember:** Phases: **identify, contain, eradicate, recover, lessons learned.** Contain first, so it stops spreading; fix the cause before restoring.
 
 ---
 

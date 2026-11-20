@@ -16,6 +16,8 @@
 
 As an engineer: inventory vendors and integrations; least privilege on each (narrow scopes, read-only); know where every token lives so you can revoke fast; minimize the data vendors hold; ask for security evidence before onboarding.
 
+> **Remember:** A vendor's breach can be yours. Check who has access to your data and limit it.
+
 ---
 
 ## 2. The software supply chain
@@ -48,6 +50,8 @@ Hundreds or thousands of transitive dependencies mean one compromise runs code o
 7. Harden CI/CD: no secrets for untrusted PRs, protected branches, reviewed pipeline changes.
 8. Minimize dependencies.
 
+> **Remember:** Supply-chain attacks poison something you trust (a package, an update, a build). Defences: lockfiles, review new dependencies, delay brand-new versions, pin CI steps.
+
 ---
 
 ## 3. Cloud misconfiguration and leaked secrets
@@ -68,6 +72,8 @@ Cloud services are secure by design and insecure by *configuration* (A02 rose to
 
 Treat every key as something that *will* leak: limit its power and its lifetime.
 
+> **Remember:** Most cloud breaches are **misconfiguration or leaked keys**, not clever hacks: public storage, over-broad permissions, secrets in code.
+
 ---
 
 ## 4. Threat modeling with STRIDE
@@ -84,6 +90,9 @@ Ask *before you build*: "What can go wrong?" (This addresses A06 Insecure Design
 | **E** | Elevation of privilege | Authorization | Least privilege, per-request checks |
 
 Draw the feature as boxes and arrows (user, browser, API, database, third party), ask the six questions at each, and write one mitigation per realistic threat.
+
+> **Remember:** **STRIDE** = Spoofing, Tampering, Repudiation, Information disclosure, Denial of service, Elevation of privilege. A checklist for "what could go wrong here?".
+
 
 ## 5. A secure delivery pipeline
 
@@ -104,6 +113,8 @@ Draw the feature as boxes and arrows (user, browser, API, database, third party)
 > **Interview angle.** "How do you build security into development?" → "I threat-model new features with STRIDE; use secure defaults (parameterized queries, output encoding, per-object authorization); run secret scanning, SAST and SCA in CI and DAST on staging; pin and review dependencies and keep an SBOM; keep secrets in a manager with short-lived credentials; and use least privilege for services and CI."
 
 > **AI-agent era.** Agents add dependencies freely and may name packages that do not exist; an attacker can register that name. A USENIX Security 2025 study of 16 models found at least 5.2% hallucinated packages for commercial models and 21.7% for open-source models, and installing an unvetted package runs install scripts. Verify every new dependency (does it exist, who publishes it, do we need it), install with a lockfile and `--ignore-scripts`, and keep a human in the approval loop. Malware can also call AI command-line tools already on a developer machine to hunt for secrets, as in the Nx "s1ngularity" attack of August 2025 (over 400 users or organizations affected, per InfoQ): keep secrets out of the environment and files an agent can read.
+
+> **Remember:** Put checks in the pipeline: tests, secret scanning, dependency scanning, code review, least-privilege credentials.
 
 ---
 

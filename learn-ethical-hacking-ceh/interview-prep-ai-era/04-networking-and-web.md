@@ -21,6 +21,9 @@ In 2026 the **application layer** is where most real incidents happen, so spend 
 
 **TCP vs UDP:** TCP sets up a connection first and guarantees ordered delivery (web, email, SSH). UDP is connectionless and faster, best effort (DNS, video calls, games). **Ports** are numbered doors (0-65535); a service listens on one, and a scan checks which are open.
 
+> **Remember:** Attacks sit at different layers, so defences do too: firewalls work on addresses and ports, a WAF on web requests. Skip memorising all seven OSI layers; know network, transport and application.
+
+
 ## 2. The TCP handshake
 
 ![The TCP handshake and how nmap reads it](images/09-tcp-handshake-scan.svg)
@@ -29,6 +32,9 @@ In 2026 the **application layer** is where most real incidents happen, so spend 
 
 - **Scans:** nmap's default scan sends the SYN, reads the reply (SYN/ACK means open, RST means closed) and hangs up (Chapter 5).
 - **Floods:** a *SYN flood* abuses the wait for the final ACK. It is real but well mitigated (SYN cookies are built into modern systems), and in Cloudflare's first-half-2026 data other floods dominate (Chapter 8). Know it in one line.
+
+> **Remember:** **SYN, SYN-ACK, ACK**: the three steps that open a TCP connection. Scanners and SYN floods abuse this.
+
 
 ## 3. DNS: the internet's phone book
 
@@ -42,6 +48,9 @@ A device asks a *resolver*, which asks the root, then `.com`, then bank.com's na
 | **TXT** | SPF, DKIM, DMARC, domain verification | Email anti-spoofing lives here |
 
 Know in one line: **DNS spoofing / cache poisoning** (a false answer sends users to a fake IP; DNSSEC adds signatures) and **DNS floods** (now the most common DDoS vector).
+
+> **Remember:** DNS turns a name into an IP address. **A** = the address, **CNAME** = a nickname for another name, **MX** = where email goes, **TXT** = notes (email anti-spoofing: SPF, DKIM, DMARC). Risks: a **forgotten CNAME** lets someone take over the subdomain; **missing SPF/DKIM/DMARC** makes fake emails easier.
+
 
 ## 4. The master story: typing https://bank.com
 
@@ -57,6 +66,9 @@ Narrate it in about two minutes, with a risk at each step:
 6. **Response and render**: the browser enforces its rules. *Risk: XSS if output was not encoded.*
 
 > **Interview angle.** Do not recite; narrate with the risks. Attaching a threat to every step shows you think like a defender.
+
+> **Remember:** Say this story from memory: **DNS lookup, TCP handshake, TLS handshake, HTTP request, response.** It is the most useful foundation answer.
+
 
 ## 5. HTTP in a nutshell
 
@@ -95,6 +107,8 @@ HTTP is **stateless**; after login the server sends a random **session ID** in a
 > **Common mistake.** "Add CORS to make it secure." CORS **removes** a restriction; `Access-Control-Allow-Origin: *` with credentials is a classic misconfiguration. Also: "HTTPS means the site is safe" is wrong (phishing sites have valid certificates), and a traditional firewall cannot see an injection inside allowed port-443 traffic.
 
 > **AI-agent era.** An AI coding agent often copies the permissive defaults it has seen most: `cors({ origin: true })`, missing cookie flags, no CSP. Check the headers of anything an agent scaffolds with `curl -I`, and add a test that asserts the expected headers.
+
+> **Remember:** Know the methods **GET** (read) and **POST** (send), and the status families: **2xx** success, **3xx** redirect, **4xx** client error (401 not logged in, 403 not allowed, 404 not found), **5xx** server error. Cookies carry the session.
 
 ---
 

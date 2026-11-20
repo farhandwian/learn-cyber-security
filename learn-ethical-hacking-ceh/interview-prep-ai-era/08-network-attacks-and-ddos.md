@@ -29,11 +29,17 @@ From Cloudflare's DDoS Threat Report for the first half of 2026:
 
 > **Interview angle.** *"CDN or scrubbing in front to absorb volume; rate-limit per client; cache and make expensive endpoints cheap; hide the origin IP; autoscale as a buffer; a runbook and on-call person. Most attacks are short, so automatic mitigation matters more than manual response."*
 
+> **Remember:** DDoS floods a service so real users cannot use it (availability). Today most are short and small; defence is a CDN or scrubbing service, rate limits and a plan. Skip the exact statistics.
+
+
 ## 2. Man-in-the-middle
 
 ![Man-in-the-middle](images/22-mitm.svg)
 
 An attacker secretly sits between two parties and can **read or change** traffic (rogue Wi-Fi "evil twin", ARP spoofing, DNS spoofing). The defence is **TLS with certificate validation plus HSTS**: interception yields ciphertext and a forged certificate triggers a warning. Near-universal HTTPS made classic eavesdropping less useful; its modern descendant is **AiTM phishing** (Chapter 7). (One line: **WPA3** is the current Wi-Fi standard; WEP is long broken.)
+
+> **Remember:** MITM = an attacker sits between two parties. **TLS** stops it; never ignore certificate warnings or use untrusted Wi-Fi without a VPN.
+
 
 ## 3. Who sits where
 
@@ -55,6 +61,8 @@ An attacker secretly sits between two parties and can **read or change** traffic
 **Segmentation** splits the network into zones (public servers in a DMZ, databases private) so one break-in does not reach everything; Change Healthcare's attackers moved freely for about nine days (Chapter 9). **Zero trust** means never trust, always verify: nothing is trusted just for being "inside".
 
 > **AI-agent era.** Treat a coding agent like a new service identity on your network: it should live in its own segment or sandbox with an egress allow-list, no route to production, and its commands logged. That is segmentation and zero trust applied to a new insider.
+
+> **Remember:** **Firewall** = address and port. **IDS** = detects and alerts. **IPS** = in the path, blocks. **WAF** = understands web requests. Layers overlap on purpose (defence in depth).
 
 ---
 

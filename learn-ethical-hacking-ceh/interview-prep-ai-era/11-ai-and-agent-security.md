@@ -23,6 +23,8 @@ In a normal program, instructions and data are separate. In an LLM app, **everyt
 
 **The risky combination:** private data + untrusted content + a way to send data out. **Remove at least one.**
 
+> **Remember:** An AI cannot reliably tell instructions from data, so text it reads can steer it (**prompt injection**). The indirect kind, hidden in a web page, email or file, is the dangerous one.
+
 ---
 
 ## 2. Building AI features safely
@@ -45,6 +47,8 @@ The authorization lives in code (the tool handler checks the signed-in user), no
 **The OWASP lists.** The LLM Top 10 (2025) in five groups: *input* (LLM01 Prompt Injection, LLM07 System Prompt Leakage); *data* (LLM02 Sensitive Information Disclosure, LLM04 Data and Model Poisoning, LLM08 Vector and Embedding Weaknesses); *output and action* (LLM05 Improper Output Handling, LLM06 Excessive Agency); *supply chain* (LLM03); *reliability and cost* (LLM09 Misinformation, LLM10 Unbounded Consumption). For agents that plan and act with tools, OWASP's **Top 10 for Agentic Applications (for 2026, published 9 December 2025)** adds risks such as Agent Goal Hijack, Tool Misuse and Exploitation, and Identity and Privilege Abuse. The heart of it: give each agent its own limited identity, least-privilege tools and a human check before consequential actions.
 
 > **The bridge.** Most entries are old principles in a new place: LLM05 is injection through model output, LLM06 is least privilege, LLM10 is rate limiting, LLM03 is the supply chain, LLM08 is access control on a data store. *"AI security is mostly old principles applied to a new component"* is a strong interview sentence.
+
+> **Remember:** Rules: tools use the user's permissions, minimal tools, a human approves risky actions, treat model output as untrusted, no secrets in prompts.
 
 ---
 
@@ -101,6 +105,8 @@ A model may suggest a package that does not exist; an attacker can register that
 | **Dependencies** | Human check of every new package; cooldown; lockfile |
 | **Review** | The author owns the diff; agents do not approve or merge |
 
+> **Remember:** Using coding agents safely in one line: **sandbox, scoped short-lived tokens, no production credentials, review every dependency and diff.** An AI may suggest a package that does not exist, and an attacker can register that name.
+
 ---
 
 ## 4. AI in the attacker's hands
@@ -108,6 +114,8 @@ A model may suggest a package that does not exist; an attacker can register that
 Anthropic reported on **13 November 2025** (**confirmed**, the report was read) that a state-sponsored group used Claude Code to carry out **80-90%** of a cyber-espionage campaign against about **30** targets, with humans making only a handful of decisions. A small number of intrusions succeeded, and the model sometimes hallucinated credentials. Several vendors also report the time from disclosure to a working exploit shrinking to days or hours (their metrics differ, so check the originals before quoting a number). Defender's takeaway: patch known-exploited flaws faster, rely on phishing-resistant authentication, and assume reconnaissance and phishing are cheaper and more convincing than before.
 
 > **Interview angle.** *"How do you use AI coding agents safely?"* "Three layers. Limit what the agent can reach: a sandbox, scoped short-lived tokens, no production credentials, approvals for risky actions. Limit what it can be told: repo files, issues, web pages and MCP tools are untrusted input that can steer it. Check what it produces: small PRs, a review against five questions, negative tests, and CI gates for dependencies and secrets. The thread is least privilege plus review. A real example is s1ngularity, where malware used developers' own AI tools to look for secrets."
+
+> **Remember:** Attackers use AI to scale phishing and speed up exploitation, so patching and phishing-resistant MFA matter more.
 
 ---
 

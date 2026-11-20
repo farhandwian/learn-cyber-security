@@ -20,12 +20,27 @@ For the developer-focused deep dive (code, labs, secure code review), use the co
 
 | Week | Chapters | Practice |
 | --- | --- | --- |
-| **1** | 1 Landscape and AI era, 2 Basics, 3 Cryptography, 4 Networking and web | Set up your lab (Ch 13); say the CIA triad and TLS handshake aloud |
-| **2** | 5 Recon and scanning, 6 Application security core, 7 Identity and phishing | Juice Shop: two web bugs; `nmap` your own machine |
-| **3** | 8 Network attacks and DDoS, 9 Ransomware and incident response, 10 Supply chain and cloud | Walk through a ransomware timeline aloud; audit one repo's dependencies |
-| **4** | 11 AI and agent security, 12 Q&A, 14 Cheat sheets | Agent labs A1-A4; two mock interviews |
+| **1: Foundations** (about 12 h) | 2 Basics, 4 Networking and web, 3 Cryptography | Explain aloud: what happens when you open a URL; the CIA triad; TLS in two sentences |
+| **2: Core attacks** (about 13 h) | 5 Recon and scanning, 6 Appsec core, 7 Identity and phishing | Juice Shop: find two web bugs; run `nmap` on your own machine; explain MFA and phishing |
+| **3: Defence and context** (about 11 h) | 9 Ransomware and incident response, 8 Network attacks and DDoS, 10 Supply chain and cloud, 1 Landscape | Walk through a ransomware timeline and the IR phases aloud; audit one repo's dependencies |
+| **4: AI, gaps and recall** (about 14 h) | 11 AI and agent security, 15 CEH gap terms, 16 Working with AI, then 12 Q&A and 14 Glossary | One agent lab (A1-A4); about 25 questions aloud twice; two mock interviews |
 
-**Weekday rhythm (about 90 minutes):** 30 minutes read, 30 lab, 20 saying answers aloud, 10 writing what you got wrong. **Two-week version:** Chapters 1, 2, 6, 7, 9 and 11, plus Q&A.
+That totals about 50 hours. To fit 40, drop Chapter 10 to a single read, skip Chapter 1 beyond its numbers, and do three labs only. Keep Weeks 1 and 2 intact.
+
+**Weekday rhythm (about 90 minutes):** 30 minutes read, 30 lab, 20 saying answers aloud, 10 writing what you got wrong. **Two-week version:** Chapters 2, 4, 5, 7, 9, 11 and 12, plus the glossary.
+
+## Priority path (if your interview is mostly a formality)
+
+**Assume you are not yet comfortable with networking and the web, even as a software engineer.** Start with the foundations, because every later topic (scanning, attacks, DDoS, incident response) builds on them.
+
+| Step | Chapters | Time |
+| --- | --- | --- |
+| **1. Foundations (first)** | 2 Basics, 4 Networking and web, 3 Crypto (hash vs encrypt vs encode, TLS) | about 12 h |
+| **2. Core interview topics** | 5 Recon and scanning, 6 Appsec core (SQL injection, XSS, CSRF, IDOR), 7 Identity and phishing, 9 Incident response | about 18 h |
+| **3. Key points** | 1 Landscape, 8 Network attacks and DDoS, 10 Supply chain and cloud, 11 AI and agents, 15 CEH gap terms, 16 Working with AI | about 12 h |
+| **4. Practise and recall** | 12 Q&A (pick about 25 questions, say each aloud twice), 14 Glossary (read twice), 13 Labs (do three: Juice Shop, `nmap` on your own machine, one agent lab) | about 10 h |
+
+If a step feels hard, stay on it an extra day: a weak foundation makes the later chapters feel like memorising. Chapters 15 and 16 are new: **15** defines CEH-syllabus topics the other chapters skip, and **16** covers working with AI as a security operator.
 
 ## How to answer
 

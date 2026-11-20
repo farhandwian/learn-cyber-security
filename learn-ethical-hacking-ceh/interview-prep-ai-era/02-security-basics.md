@@ -10,6 +10,9 @@
 
 Security keeps a system useful and trustworthy **while someone is actively trying to break it**. Two facts shape everything: **the attacker needs one way in, the defender must close all of them** (so we stack controls), and **security is about risk, not perfection** (you decide which risks are worth the cost).
 
+> **Remember:** Security is mostly a few ideas applied everywhere: **protect the data, limit access, expect failure, detect and respond**.
+
+
 ## 2. The CIA triad
 
 When asked about *any* attack, say which of the three it breaks.
@@ -23,6 +26,9 @@ When asked about *any* attack, say which of the three it breaks.
 | **Availability** | Does it work when needed? | Ransomware, DDoS | Redundancy, tested backups, rate limits |
 
 Extra words: **authenticity** (is the sender who they claim?) and **non-repudiation** (the sender cannot deny it; signatures give this). Don't treat security as only "keeping secrets": a hospital locked by ransomware failed at availability.
+
+> **Remember:** **C**onfidentiality: only the right people see it. **I**ntegrity: it is not changed. **A**vailability: it works when needed. Classify any attack by which leg it breaks.
+
 
 ## 3. Vocabulary
 
@@ -41,6 +47,9 @@ A bug that is trivial to reach from the internet and exposes every customer is *
 
 > **Interview angle.** *"Vulnerability vs threat vs risk?"* "A vulnerability is a weakness, a threat is something that could exploit it, risk is the likelihood and impact of that happening. A scary bug that is hard to reach and exposes nothing is lower risk than a boring one that is easy to reach and exposes everything."
 
+> **Remember:** **Vulnerability** = weakness. **Threat** = something that could use it. **Risk** = likelihood × impact. **Exploit** = the way of using a vulnerability.
+
+
 ## 4. CVE, CWE, CVSS, KEV
 
 ![CWE, CVE and CVSS](images/14-cwe-cve-cvss.svg)
@@ -54,6 +63,9 @@ A bug that is trivial to reach from the internet and exposes every customer is *
 
 Prioritize by **exploited in the wild (KEV) and exposure**, then score. A 7.5 on an internet-facing system that is being exploited beats a 9.0 nobody can reach.
 
+> **Remember:** **CVE** = ID of a known flaw. **CWE** = type of weakness. **CVSS** = severity score 0 to 10 (9.0+ is critical). **KEV** = CISA's list of flaws exploited in the wild: fix these first. Skip the exact scoring formula.
+
+
 ## 5. The five phases of an attack
 
 ![The five phases of an attack](images/05-five-phases.svg)
@@ -65,6 +77,9 @@ Prioritize by **exploited in the wild (KEV) and exposure**, then score. A 7.5 on
 5. **Covering tracks:** deleting or editing logs.
 
 Each phase has a defender's counter-move; the best defence breaks the chain **early**. Real attacks loop: after one machine, the attacker returns to phases 1 and 2 for the next. Professionals use **MITRE ATT&CK**, a public catalogue of tactics and techniques; your five phases are the simple summary.
+
+> **Remember:** Five phases: **reconnaissance, scanning, gaining access, maintaining access, covering tracks**. Defenders use the same list to decide where to detect and block.
+
 
 ## 6. Who is who
 
@@ -78,6 +93,9 @@ Each phase has a defender's counter-move; the best defence breaks the chain **ea
 
 **Vulnerability assessment vs penetration test:** an assessment is broad and mostly automated ("what weaknesses exist?"); a pentest is narrow and manual ("what can an attacker actually *do*?").
 
+> **Remember:** Hats show *permission*: white hat has it, black hat does not. **Red team** attacks (with permission), **blue team** defends.
+
+
 ## 7. Two principles interviewers love
 
 - **Least privilege:** each user and program gets only the access it needs. The web app's database account can `SELECT` and `INSERT` on its tables, not `DROP TABLE`.
@@ -90,6 +108,10 @@ Three more one-liners: **never trust input** that crosses a trust boundary (form
 > **Real case: Change Healthcare (2024).** A remote-access portal with no multi-factor authentication, entered with stolen credentials, then about nine days of movement before ransomware; about 190 million people reported affected. *Lessons:* one missing basic (MFA) and too much freedom inside (least privilege, segmentation).
 
 > **AI-agent era.** Treat a coding agent as a user that needs least privilege: its own scoped, short-lived credentials, no production access, approvals for risky actions. The CIA triad still classifies what goes wrong: an agent that leaks a secret breaks confidentiality; one that deletes a database breaks availability and integrity. Agents also paste plausible but insecure code, so apply "never trust input" to model output too.
+
+> **Remember:** **Least privilege:** only the access needed. **Defence in depth:** overlapping controls so one failure is not fatal. Together they limit damage. Be ready to give one example of each.
+>
+> **Also remember the four names:** a **firewall** filters by address and port; an **IDS** only *detects* and alerts; an **IPS** sits in the path and *prevents* (blocks); a **WAF** understands web requests and blocks SQL injection and XSS. Skip the exact box order in the diagram.
 
 ---
 

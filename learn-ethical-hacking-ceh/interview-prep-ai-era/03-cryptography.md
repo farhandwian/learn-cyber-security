@@ -18,6 +18,9 @@
 
 Common mistakes: "Base64 is encryption" (anyone can decode it); "we decrypt the hash to verify" (a hash cannot be reversed; hash the attempt and compare); "we encrypt passwords" (passwords are hashed, never encrypted).
 
+> **Remember:** **Hash** = one-way fingerprint (passwords). **Encrypt** = scramble with a key; reversible with the key. **Encode** = format change, no secrecy (Base64). Mixing these up is a classic mistake.
+
+
 ## 2. Hashing
 
 A **hash** turns any input into a fixed-size fingerprint: deterministic, one-way, an avalanche effect (change one character, everything changes), collision resistant. You meet hashes in Git commits, download checksums, signatures (which sign a hash) and **HMAC** (proves a message came from someone with the secret).
@@ -38,6 +41,9 @@ Modern risk is mostly passwords stolen from *users* (phishing, infostealers, cre
 
 > **Interview angle.** "Passwords are hashed with a slow, salted algorithm such as Argon2id, never encrypted and never a fast hash like MD5. Slowness makes guesses expensive; the per-user salt defeats precomputed tables. Better still, reduce reliance on passwords with passkeys and MFA."
 
+> **Remember:** Store passwords with a **slow, salted password hash** (Argon2id first choice), never plain text, never a fast hash like MD5 or SHA-1, never encryption. Skip the exact parameters; know why.
+
+
 ## 3. Symmetric vs asymmetric
 
 ![Symmetric vs asymmetric encryption](images/07-symmetric-asymmetric.svg)
@@ -51,11 +57,17 @@ Modern risk is mostly passwords stolen from *users* (phishing, infostealers, cre
 
 They fix each other's weaknesses, so real systems (TLS) use **both**. **Diffie-Hellman** lets two parties agree on a shared secret over an open channel without sending it.
 
+> **Remember:** **Symmetric:** one shared key, fast, used for the data. **Asymmetric:** public and private key pair, used to exchange keys and sign. Real systems use both.
+
+
 ## 4. Signatures and certificates
 
 **Signature:** sign a hash with the **private** key; anyone verifies with the **public** key. It proves integrity, authenticity and non-repudiation. (Encryption is the reverse: public key locks, private key unlocks. Passkeys use signing: your device signs a challenge.)
 
 **Certificate:** a public key alone proves nothing. A certificate is a signed statement from a trusted **Certificate Authority**: "this key belongs to bank.com." The browser walks the **chain of trust** (site, intermediate, root already trusted) and checks: trusted CA, right domain, valid dates, not revoked.
+
+> **Remember:** A **signature** proves who sent something and that it was not changed. A **certificate** is a CA's signed statement that a public key belongs to a named site.
+
 
 ## 5. The TLS handshake
 
@@ -69,6 +81,9 @@ They fix each other's weaknesses, so real systems (TLS) use **both**. **Diffie-H
 
 A man-in-the-middle fails because the attacker cannot get a CA-signed certificate for bank.com. Follow-ups: **forward secrecy** (temporary session keys; a stolen long-term key cannot decrypt past traffic; required by TLS 1.3); **TLS 1.3** is faster and dropped weak options; the **padlock** means encrypted and the domain is really owned, **not** that the site is trustworthy; **HSTS** tells browsers to always use HTTPS and blocks downgrades.
 
+> **Remember:** In two sentences: the browser checks the server's certificate and they agree on a key using asymmetric crypto; then all data is encrypted with fast symmetric crypto. Skip the message-by-message details.
+
+
 ## 6. Post-quantum cryptography
 
 A large quantum computer could break RSA and elliptic-curve public-key crypto. Such machines do not exist at scale yet, but an attacker can **record traffic today and decrypt it later** ("harvest now, decrypt later"). NIST notes migrations historically take 10 to 20 years.
@@ -80,6 +95,9 @@ A large quantum computer could break RSA and elliptic-curve public-key crypto. S
 
 For developers: know the words (harvest now decrypt later, ML-KEM, **hybrid** key exchange); symmetric crypto and hashes are much less affected (AES-256, SHA-256); the urgent work is key exchange and signatures; be **crypto-agile** (do not hard-code algorithms, know where you use RSA/ECC: TLS, JWT signing, code signing, SSH); use TLS 1.3 and keep libraries updated. It is a planning topic, not a panic topic.
 
+> **Remember:** Future quantum computers may break today's public-key crypto, so data stolen now could be read later ("harvest now, decrypt later"). NIST published new standards in 2024; the plan is to migrate. Skip the algorithm names and dates.
+
+
 ## 7. Mistakes developers actually make
 
 - Rolling your own crypto (use a vetted library).
@@ -90,6 +108,8 @@ For developers: know the words (harvest now decrypt later, ML-KEM, **hybrid** ke
 - Disabling certificate verification (`verify=False`) to silence an error.
 
 > **AI-agent era.** These are exactly the patterns an agent reproduces from its training data: `Math.random` tokens, MD5 or SHA-1 passwords, `verify=False` "to fix the error", and example keys pasted into code. Add "use `crypto.randomBytes`, Argon2id, never disable TLS verification, no hard-coded secrets" to your prompt rules, grep the diff for them, and keep secrets out of any file or environment the agent can read.
+
+> **Remember:** Never invent your own crypto, hard-code keys, or use a non-secure random generator for tokens. Use well-known libraries.
 
 ---
 

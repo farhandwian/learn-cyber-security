@@ -12,6 +12,9 @@
 
 In a real engagement permission lives in a signed **scope document** (rules of engagement). Out of scope means do not touch.
 
+> **Remember:** Test only what you **own** or have **written permission** to test. Say this first in any scanning answer.
+
+
 ## 2. Passive vs active recon
 
 ![Passive vs active reconnaissance](images/12-passive-vs-active.svg)
@@ -26,6 +29,9 @@ In a real engagement permission lives in a signed **scope document** (rules of e
 **OSINT sources and the defender's lesson:** WHOIS/DNS (remove stale records), **certificate transparency logs such as crt.sh** (internal hostnames leak through certificates), Google dorks (check what search engines index), **Shodan/Censys** (know your own exposure), LinkedIn and job posts (fuel impersonation and phishing), leaked-credential data (enforce MFA).
 
 > **Attack surface management** is the defender's version of recon: continuously finding *your own* internet-facing assets (forgotten servers, test systems, exposed VPNs) before attackers do. Edge devices and file-transfer tools are favourite targets in 2025-26.
+
+> **Remember:** **Passive** never touches the target (public records, search, certificates). **Active** sends traffic to it (scanning) and needs permission.
+
 
 ## 3. What nmap tells you
 
@@ -44,6 +50,9 @@ Concepts to know: a **ping sweep** finds live hosts; a **SYN ("half-open") scan*
 **The classic chain:** *scan, version, known vulnerability (CVE), exploit.* Hiding the version banner is obscurity; the real fix is to patch.
 
 **Defender's use:** run scans against your own estate, ask "does this server need all these open?", and close what you do not need.
+
+> **Remember:** nmap finds hosts, open ports and service versions. Port states: **open** (a service answers), **closed** (reachable, nothing listening), **filtered** (a firewall hides it). Skip the command flags; know what it is for.
+
 
 ## 4. CWE, CVE, CVSS, KEV
 
@@ -69,6 +78,8 @@ Read a vector aloud: `AV:N/AC:L/PR:N/UI:N` means "attackable over the network, e
 > **Real case: MOVEit Transfer (2023).** A SQL injection zero-day (CVE-2023-34362) in a file-transfer product let the Cl0p group steal data from thousands of organizations: an Emsisoft tally reached about **2,800 organizations** and roughly **96 million people** by August 2024. *Lesson:* edge and file-transfer tools are favourite targets, and the window from disclosure to mass exploitation can be days.
 
 > **AI-agent era.** AI tools speed up both sides: attackers use them for reconnaissance, phishing research and exploit adaptation, and vendors report the gap between disclosure and exploitation shrinking (metrics differ, so quote with care). Defenders should automate asset inventory and KEV-first patching. An agent with network or shell access must **never** be pointed at systems you do not own or have written permission to test.
+
+> **Remember:** Same four as before: **CVE** (ID), **CWE** (weakness type), **CVSS** (0-10 severity), **KEV** (exploited now: fix first).
 
 ---
 

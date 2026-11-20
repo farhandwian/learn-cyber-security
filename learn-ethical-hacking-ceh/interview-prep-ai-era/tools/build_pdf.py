@@ -51,7 +51,7 @@ img { display: block; max-width: 100%; margin: 10px auto; border: 1px solid #e3e
 
 KIND = [("Goal", "goal"), ("Not a goal", "goal"), ("Why labs", "goal"), ("Legal rule", "goal"), ("Rule zero", "goal"),
         ("Definition of done", "goal"), ("How to drill", "goal"), ("Analogy", "analogy"), ("Real case", "case"),
-        ("AI-agent era", "case"), ("Common mistake", "mistake"), ("Interview angle", "interview")]
+        ("AI-agent era", "case"), ("Remember", "interview"), ("Common mistake", "mistake"), ("Interview angle", "interview")]
 
 
 def kind(label):
@@ -61,7 +61,7 @@ def kind(label):
     return ""
 
 
-NAMES = {"00": "Start here", "12": "Interview Q&A", "13": "Labs", "14": "Cheat sheets", "15": "Sources"}
+NAMES = {"00": "Start here", "12": "Interview Q&A", "13": "Labs", "14": "Cheat sheets", "15": "CEH gap terms", "16": "Working with AI", "17": "Sources"}
 
 
 def link_text(m):

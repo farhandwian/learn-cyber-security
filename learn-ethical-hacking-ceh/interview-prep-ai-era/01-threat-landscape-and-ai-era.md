@@ -22,6 +22,9 @@ As reported by [TechTarget](https://www.techtarget.com/cybersecurity/news/366643
 
 > **Caution.** These figures come from *news coverage* of the report, not the report. Say "according to Verizon's 2026 report", round them, and stress the shape: known flaws, stolen access and vendors dominate. That is good news, because ordinary discipline defends against all three.
 
+> **Remember:** Breaches start through three doors: **exploited vulnerabilities**, **stolen or phished credentials**, and **third parties**. Quote any percentage as "according to the Verizon 2026 report, as reported"; the direction matters more than the exact number.
+
+
 ## 2. The themes of 2025-26
 
 | Theme | What is happening |
@@ -32,6 +35,9 @@ As reported by [TechTarget](https://www.techtarget.com/cybersecurity/news/366643
 | **Ransomware and extortion** | Data is stolen first, then systems are locked |
 | **AI on both sides** | Attackers scale with AI; agents and AI apps are a new attack surface |
 | **Bigger, shorter DDoS** | Record volumes, but most attacks end within minutes |
+
+> **Remember:** Remember the *direction*: attackers use stolen logins and unpatched flaws more than clever hacking. Skip the exact figures.
+
 
 ## 3. Cases to keep in your pocket
 
@@ -45,6 +51,9 @@ As reported by [TechTarget](https://www.techtarget.com/cybersecurity/news/366643
 | **EchoLeak (2025)**: zero-click prompt injection in Microsoft 365 Copilot, CVE-2025-32711, CVSS 9.3 | Assistants can be steered by content they read | Confirmed; patched |
 | **Klue (2026)**: a 2022 pilot credential never retired; about 200 downstream companies | Credential lifecycle plus third parties | Confirmed by Klue |
 | **2026 developer-tool wave** and the **Instagram/Meta AI chatbot** takeovers | Developer tools and AI helpers are targets | Reported (TechCrunch roundup; 404 Media and NYT) |
+
+> **Remember:** Remember two or three cases and the **lesson** of each (for example: a poisoned package spreads like a worm; a vendor's breach becomes yours). Skip dates and victim counts.
+
 
 ## 4. What AI agents change
 
@@ -72,9 +81,14 @@ Coding agents (Claude Code, Cursor, Copilot and similar) now write, install and 
 
 > **AI-agent era.** The sentence to remember: *"The agent is fast and confident, not accountable. I own the diff."* Interviews still ask the classics, plus "how do you use AI tools safely?".
 
+> **Remember:** AI agents are a fast new participant that **reads untrusted content and acts with your permissions**. The old principles (least privilege, review, tests) still apply.
+
+
 ## 5. Interview angle
 
 > **"What are the biggest threats right now?"** "Attackers mostly get in through three doors: known vulnerabilities not yet patched, stolen or phished credentials (including phishing that defeats ordinary MFA), and third parties such as a vendor token or a poisoned dependency. Ransomware monetizes that access. AI adds scaled phishing and a new attack surface: agents that read untrusted content and act with your permissions. The common thread is least privilege, fast patching and review."
+
+> **Remember:** Practise the sample answer aloud once, in your own words.
 
 ---
 

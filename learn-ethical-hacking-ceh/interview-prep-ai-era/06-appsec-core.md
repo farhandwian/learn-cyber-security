@@ -22,6 +22,14 @@ Memorize it in five groups, not ten items:
 
 **What changed in 2025:** two new categories (A03 supply chain, A10 exceptional conditions); **SSRF merged into A01**; Broken Access Control stays #1; Misconfiguration rose from #5 to #2. Say "the 2025 edition" and mention one change. Reciting the 2021 list looks dated.
 
+> **Remember:** You do **not** need to memorise all ten in order. Know that the OWASP Top 10 is a list of the most common serious web risks used as a checklist. **Learn six with an example each:** broken access control (change `/invoice/101` to `/102` and see another user's invoice; number one), injection (SQL injection), authentication failures (weak or missing MFA), cryptographic failures, security misconfiguration (default passwords), software supply chain failures (a fake or hijacked package; new in 2025). **Know by name:** insecure design; software or data integrity failures; logging and alerting failures; mishandling of exceptional conditions.
+>
+> **How to memorise them:** don't memorise the numbers. Group them in three:
+>
+> - **Who can do what:** access control, authentication.
+> - **What goes in and out:** injection, cryptography, misconfiguration.
+> - **Everything around the code:** supply chain, integrity, design, logging, error handling.
+
 ---
 
 ## 2. The one idea behind every injection attack
@@ -55,6 +63,8 @@ cursor.execute("SELECT * FROM users WHERE name = ?", (username,))
 
 > **Real case: MOVEit Transfer (2023).** A SQL injection flaw (CVE-2023-34362) in a file-transfer product was exploited as a zero-day by the Cl0p group; an Emsisoft tally reached about 2,800 organizations and roughly 96 million people by August 2024. A decades-old bug class can still cause a mass breach, and it was a third party's product.
 
+> **Remember:** Injection = untrusted input becomes part of a command. **Fix: parameterized queries**, so input is always data.
+
 ---
 
 ## 3. Cross-site scripting (XSS)
@@ -75,6 +85,8 @@ page = "<p>" + html.escape(comment) + "</p>"     # SAFE: output-encoded
 ```
 
 **Defences:** (1) encode output for its context; React, Vue, Angular and autoescaping templates do it by default; (2) know the escape hatches (`dangerouslySetInnerHTML`, `v-html`, `|safe`, `innerHTML`) and treat each use as a review flag; (3) sanitize rich HTML with DOMPurify; (4) a Content-Security-Policy as defence in depth; (5) `HttpOnly` cookies. "Validate input and XSS is solved" is wrong: the dangerous moment is output, and the right encoding depends on where it lands.
+
+> **Remember:** XSS = an attacker's script runs in another user's browser. **Fix: encode output, plus a Content Security Policy.** Know the three types (stored, reflected, DOM) by name.
 
 ---
 
@@ -109,6 +121,8 @@ Long random IDs are a bonus, never access control: they leak through logs, refer
 
 **API Top 10 to know by name:** API1 BOLA, API3 Broken Object Property Level Authorization, API4 Unrestricted Resource Consumption (rate limits), API5 BFLA, API9 Improper Inventory (forgotten old endpoints). Return only the fields the caller needs.
 
+> **Remember:** IDOR/BOLA = changing an ID shows someone else's data. **Fix: check ownership on the server, on every request.** Hiding a button is not security.
+
 ---
 
 ## 5. CSRF and SSRF
@@ -124,6 +138,8 @@ Defences: `SameSite=Lax`/`Strict` cookies (set explicitly), anti-CSRF tokens, `O
 ![SSRF](images/20-ssrf.svg)
 
 Defences: allowlist destinations; block private and link-local ranges **after DNS resolution** and re-check on redirects; do not return raw responses; hardened metadata (AWS IMDSv2) and least-privilege cloud roles; network segmentation. The classic case is Capital One (2019, public reporting), an illustration rather than a current trend.
+
+> **Remember:** **CSRF:** a logged-in browser is tricked into sending a request (fix: SameSite cookies, CSRF tokens). **SSRF:** a server is tricked into fetching internal addresses (fix: allowlist, block private addresses).
 
 ---
 
@@ -143,6 +159,8 @@ Defences: allowlist destinations; block private and link-local ranges **after DN
 | Logging | Log auth and access-control failures; never log secrets |
 
 > **AI-agent era.** Coding agents reproduce the patterns in their training data, so string-built SQL, `innerHTML`, and "logged in means allowed" endpoints appear in their output, and agents tend to write the happy path and skip per-object authorization. Review every generated route with the question "whose data is this?", and have the agent write negative tests (B cannot read A's order) before the feature. Studies report that a large share of AI-generated code fails security tests (Veracode 2026: about 56% pass rate, vendor research on raw models).
+
+> **Remember:** The checklist in one line: **log in, check permission per object, validate input, limit requests, return only needed fields, use TLS.**
 
 ---
 

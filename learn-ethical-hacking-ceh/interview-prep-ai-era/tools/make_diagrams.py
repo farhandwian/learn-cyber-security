@@ -75,8 +75,29 @@ def review_loop():
     s.save("ai-review-loop")
 
 
+def passkey_challenge():
+    s = S(880, 520, "How a passkey login works: challenge and signature", "The device signs a one-time challenge, and only for the domain the passkey was made for")
+    s.rect(20, 72, 840, 190, MINT, GREEN, 12); s.text(36, 96, "Real site: microsoft.com", 14, GREEN, "bold")
+    steps = [("1  Challenge", "Site sends a fresh random value, e.g. x7Qp9...", SKY, TEAL), ("2  Sign", "Device checks the domain, then signs challenge + domain with the private key", SAND, AMBER),
+             ("3  Verify", "Site checks the signature with your public key", SKY, TEAL), ("4  Logged in", "Only the signature travelled; the private key never left the device", MINT, GREEN)]
+    for i, (t, b, f, c) in enumerate(steps):
+        x = 36 + i * 205
+        s.rect(x, 112, 185, 128, f, c, 10); s.text(x + 10, 134, t, 13, c, "bold"); s.text(x + 10, 156, "\n".join(wrap(b, 165, 11.5, False)), 11.5, INK, lh=1.3)
+        if i < 3:
+            s.arrow(x + 187, 176, x + 203, 176, MUTE)
+    s.rect(20, 278, 840, 150, PINK, RED, 12); s.text(36, 302, "Look-alike site: micros0ft-login.com (AiTM proxy)", 14, RED, "bold")
+    s.box(36, 322, 190, 90, "Proxy asks your device to sign its challenge", WHITE, RED, INK, 12)
+    s.arrow(228, 367, 288, 367, RED)
+    s.box(290, 322, 270, 90, "Device checks the domain: no passkey is registered for micros0ft-login.com", SAND, AMBER, INK, 12)
+    s.arrow(562, 367, 622, 367, RED)
+    s.box(624, 322, 220, 90, "Refuses to sign. The proxy has nothing to relay.", MINT, GREEN, INK, 12, "bold")
+    s.rect(20, 442, 840, 64, SKY, TEAL, 10)
+    s.ctext(440, 474, "Why it is safe: the challenge is new every time, so an old signature is useless. The browser checks the domain, so a perfect copy of the page does not help the attacker.", 12, INK, "bold", width=800)
+    s.save("passkey-challenge")
+
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
-    for f in (agent_trust, permission_ladder, injection_flow, review_loop):
+    for f in (agent_trust, permission_ladder, injection_flow, review_loop, passkey_challenge):
         f()
     print("ok")
